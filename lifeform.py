@@ -427,7 +427,7 @@ class Trait:
 	description = ''
 	genome = ''
 	
-	def __init__(self, name, pheno_prereqs, pheno_nopes, pheno_tags, biome_reqs, biome_tols, biome_impacts, eco_impacts, num_per_planet, description, stage, org_type, id):
+	def __init__(self, name, pheno_prereqs, pheno_nopes, pheno_tags, biome_reqs, biome_tols, biome_impacts, eco_impacts, description, stage, org_type, id):
 		self.name = name
 		self.pheno_prereqs = pheno_prereqs
 		self.pheno_nopes = pheno_nopes
@@ -436,7 +436,7 @@ class Trait:
 		self.biome_tols = biome_tols
 		self.biome_impacts = biome_impacts
 		self.eco_impacts = eco_impacts
-		self.num_per_planet = num_per_planet
+		self.num_per_planet = 0
 		self.description = description
 		self.stage = stage
 		self.org_type = org_type
