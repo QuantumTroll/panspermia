@@ -383,7 +383,7 @@ class Planet:
 		biome.type = 'toxic ' + biome.type
 		# do mass extinction
 		
-		sim.running = False
+		self.star.sim.running = False
 		
 	def interplanetary(self, lifeform):
 
@@ -396,7 +396,7 @@ class Planet:
 		
 		# do migration to in-system planets
 		
-		sim.running = False
+		self.star.sim.running = False
 		
 	def interstellar(self, lifeform):
 
@@ -409,7 +409,7 @@ class Planet:
 		
 		# do migration to in-system planets
 		
-		sim.running = False
+		self.star.sim.running = False
 			
 # biome
 class Biome:
