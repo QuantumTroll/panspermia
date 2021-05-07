@@ -313,31 +313,32 @@ class Planet:
 			print("Planet",self.name,":",len(self.lifeforms),"plus",len(new_forms),'new')
 		for new in new_forms:
 			self.addLifeform(new)
-		
+#		print("     new lifeforms added")
 # for each lifeform, find biomes that fit, killing the ones that have no biome	
 		for b in self.biomes:
 			b.lifeforms = []
 			b.lifelist = {}
-			
-		#kill = []
-		#for form in self.lifeforms:
-		# kill older species, not younger species
-		#	killchance = form.age/20.0
-		#	if random.random() < killchance and len(self.lifeforms) > 1:
-				# kill off species
-		#		kill.append(form)
-					
-		#for k in kill:
-		#	k.kill()
-			
+
 		for form in self.lifeforms:
 			form.findBiomes()
 		
+#		print("     findBiomes done")
 # for each lifeform, call addImpactsToBiomes	
 		for b in self.biomes:
 			b.clearEcoTags()
 		for form in self.lifeforms:
 			form.addImpactsToBiomes()
+#		print("     Ecobiomeimpacts added")	
+		for b in self.biomes:
+			if 'city' in b.type:
+				has_builder = False
+				for form in b.lifeforms:
+					if 'builder' in form.eco_niches:
+						has_builder = True
+				if not  has_builder:
+					# a city biome without a builder becomes a Ruin
+					b.type = b.type[:-4] + 'ruin'
+					print("city ruined on",self.name)
 	
 	def addTagToAtmo(self, tag):
 		if not tag in self.atmosphere:
@@ -373,17 +374,23 @@ class Planet:
 		
 		# TODO: rethink this a bit. Also, add the "city" tag. And then when this species dies, remove "city" and replace with "ruin" instead.
 		# create new biomes
+		cities = []
 		for b in lifeform.biomes:
-			self.biomes.append( Biome(self,b.type+' city',b.atmo,b.geo_tags,[],b.hazards) )
-			
+			city = Biome(self,b.type+' city',b.atmo,b.geo_tags+['city'],b.eco_tags+['builder'],b.hazards)
+			cities.append(city)
+			self.biomes.append(city)
+#			print("added",city.type,"biome to planet")
+						
 		# add toxic to random biome
 		biome = random.choice(self.biomes)
 		biome.hazards.append('toxic')
 		biome.geo_tags.append('toxic')
 		biome.type = 'toxic ' + biome.type
 		# do mass extinction
+#		print("made toxic biome")
 		
 		self.star.sim.running = False
+		return cities
 		
 	def interplanetary(self, lifeform):
 

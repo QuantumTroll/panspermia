@@ -97,29 +97,28 @@ class Lifeform:
 					self.biome_tols.append(b_tol)				
 	
 	def findBiomes(self):
-	#	print("Finding biomes for lifeform",self.genome)
 		# clear biomes list
 		self.biomes = []		
 		# iterate through self.planet.biomes
 		for b in self.planet.biomes:
+				
 			# evaluate if b has the stuff in reqs_tags
 			all_sat = True
 			for req in self.biome_reqs:
 				# check if req is in b.geo_tags or b.eco_tags 				
 				if not (req in b.geo_tags or req in b.eco_tags):
-		#			print(b.type,"fails requirement",req)
 					all_sat = False
 			if not all_sat:
 				continue
-
+				
 			for h in b.hazards:
 				if not h in self.biome_tols:
-					all_sat = False									
-			
+					all_sat = False		
+					
 			if all_sat:
 				self.biomes.append(b) 
 				b.addLifeform(self)
-			#	print("Found biome:",b.type)
+			
 		if len(self.biomes) < 1:
 		#	print("No biomes found. Killing lifeform",self.genome)
 			self.planet.removeLifeform(self)
@@ -215,7 +214,7 @@ class Lifeform:
 		
 		if 'citybuilder' in eco_tags:
 			self.eco_niches.append('builder')
-			self.planet.cityBuilder(self)
+			cities = self.planet.cityBuilder(self)
 		
 		if 'interplanetary' in eco_tags:
 			self.eco_niches.append('interplanetary')

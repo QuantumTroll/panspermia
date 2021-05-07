@@ -675,9 +675,9 @@ def tetrapods(traits):
 def toolusers(traits):
 	t = {}
 	t['name'] = 'big brains' 		
-	t['pheno_prereqs'] = {'eyes':3,'structure':2,'size':2,'energy':1}		# organism features needed to unlock trait
+	t['pheno_prereqs'] = {'eyes':3,'structure':2,'size':3,'energy':1}		# organism features needed to unlock trait
 	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
-	t['pheno_tags'] = {'brains':1,'eyes':3,'structure':2,'size':1} 			# traits contributes organism feature
+	t['pheno_tags'] = {'brains':1,'eyes':3,'structure':2,'size':2} 			# traits contributes organism feature
 	t['biome_reqs'] = []			# tag needed in biome
 	t['biome_tols'] = []		# tag that forbids a biome
 	t['biome_impacts'] = []		# trait adds tags to biome
@@ -861,7 +861,7 @@ def eyes(traits):
 def arthropods(traits):
 	t = {}
 	t['name'] = 'exoskeleton' 		
-	t['pheno_prereqs'] = {'bilateral':-1,'size':1}		# organism features needed to unlock trait
+	t['pheno_prereqs'] = {'bilateral':-1}		# organism features needed to unlock trait
 	t['pheno_nopes'] = {'bones':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'structure':2,'exoskeleton':-1} 			# traits contributes organism feature
 	t['biome_reqs'] = []			# tag needed in biome
