@@ -92,7 +92,6 @@ def micro_fundamentals(traits):
 	t = {}
 	t['name'] = 'eukaryote'
 	t['pheno_prereqs'] = {'energy':2}
-	t['pheno_nopes'] = {}
 	t['pheno_tags'] = {'multi_prereq':1} 
 	t['description'] = "has a cell nucleus"	
 	t['stage'] = 2						# advancement level of trait
@@ -101,7 +100,6 @@ def micro_fundamentals(traits):
 	t = {}
 	t['name'] = 'mitochondria'
 	t['pheno_prereqs'] = {'carbon':1}
-	t['pheno_nopes'] = {}		
 	t['pheno_tags'] = {'multi_prereq':1,'energy':2} 
 	t['biome_reqs'] = ['O2']	
 	t['biome_impacts'] = ['CO2']			# trait adds tags to biome
@@ -118,10 +116,7 @@ def micro_predator(traits):
 	t['pheno_nopes'] = {'multicellular':-1,'micro_propel':-1}	# organism features needed to *lock* trait				
 	t['pheno_tags'] = {'micro_propel':1} 		
 	t['biome_reqs'] = ['water']
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []
 	t['eco_impacts'] = ['motile']
-
 	t['description'] = "moves using cilia"		
 	t['stage'] = 1						# advancement level of trait
 	t['org_type'] = 'simple motile microorganism' 			# species descriptor, if any
@@ -132,10 +127,7 @@ def micro_predator(traits):
 	t['pheno_nopes'] = {'multicellular':-1,'micro_propel':-1}	# organism features needed to *lock* trait				
 	t['pheno_tags'] = {'micro_propel':1,'flagellum':1} 
 	t['biome_reqs'] = ['water']
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []
 	t['eco_impacts'] = ['motile']
-
 	t['description'] = "moves using flagellum"
 	t['stage'] = 1						# advancement level of trait
 	t['org_type'] = 'simple motile microorganism' 			# species descriptor, if any
@@ -145,11 +137,7 @@ def micro_predator(traits):
 	t['pheno_prereqs'] = {'energy':1,'flagellum':1}
 	t['pheno_nopes'] = {'multicellular':-1}	# organism features needed to *lock* trait				
 	t['pheno_tags'] = {'micro_propel':1} 
-	t['biome_reqs'] = []
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []			# trait adds tags to biome
 	t['eco_impacts'] = ['motile']
-
 	t['description'] = "has a rotating flagellum"		
 	t['stage'] = 1						# advancement level of trait
 	t['org_type'] = 'simple motile microorganism' 			# species descriptor, if any
@@ -160,10 +148,7 @@ def micro_predator(traits):
 	t['pheno_nopes'] = {'multicellular':-1}	# organism features needed to *lock* trait				
 	t['pheno_tags'] = {'predate':-1,'energy':3,'carbon':4} 
 	t['biome_reqs'] = ['micro_producer']
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []			# trait adds tags to biome
 	t['eco_impacts'] = ['micro_predator']
-
 	t['description'] = "consumes microorganisms"	
 	t['stage'] = 1						# advancement level of trait
 	t['org_type'] = 'predatory microbe' 			# species descriptor, if any	
@@ -175,11 +160,7 @@ def fungus(traits):
 	t['pheno_prereqs'] = {'tissues':-1}
 	t['pheno_nopes'] = {'animalia':-1}	# otherwise, animal or plant
 	t['pheno_tags'] = {'hyphae':-1} 
-	t['biome_reqs'] = []
 	t['biome_tols'] = ['toxin']		
-	t['biome_impacts'] = []			# trait adds tags to biome
-	t['eco_impacts'] = []
-
 	t['description'] = "forms threads"		
 	t['stage'] = 4						# advancement level of trait
 	t['org_type'] = 'simple fungus' 			# species descriptor, if any
@@ -190,10 +171,6 @@ def fungus(traits):
 	t['pheno_nopes'] = {'wood':-1}	
 	t['pheno_tags'] = {'carbon':1,'energy':1} 
 	t['biome_reqs'] = ['lignin']
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []			# trait adds tags to biome
-	t['eco_impacts'] = []
-
 	t['description'] = "breaks down dead wood"		
 	t['stage'] = 5						# advancement level of trait
 	t['org_type'] = 'saprotrophic fungus' 			# species descriptor, if any
@@ -204,10 +181,7 @@ def fungus(traits):
 	t['pheno_nopes'] = {}	
 	t['pheno_tags'] = {'carbon':1,'energy':1} 
 	t['biome_reqs'] = ['root']
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []			# trait adds tags to biome
 	t['eco_impacts'] = ['root_symbiont']
-
 	t['description'] = "forms symbioses with producers"		
 	t['stage'] = 5						# advancement level of trait
 	t['org_type'] = 'symbiotic fungus' 			# species descriptor, if any
@@ -217,25 +191,17 @@ def fungus(traits):
 	t['pheno_prereqs'] = {'hyphae':-1,'carbon':1}
 	t['pheno_nopes'] = {'wood':-1,'animalia':-1}	
 	t['pheno_tags'] = {'chitin':-1} 
-	t['biome_reqs'] = []
 	t['biome_tols'] = ['dry']		
-	t['biome_impacts'] = []			# trait adds tags to biome
-	t['eco_impacts'] = []
-
 	t['description'] = "forms structures with chitin"		
 	t['stage'] = 4						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'fruiting_body'
 	t['pheno_prereqs'] = {'chitin':-1,'carbon':1}
 	t['pheno_nopes'] = {'seeds':-1}
 	t['pheno_tags'] = {'mushroom':-1} 
-	t['biome_reqs'] = []
 	t['biome_tols'] = ['cold']		
-	t['biome_impacts'] = []			# trait adds tags to biome
 	t['eco_impacts'] = ['mushroom']
-
 	t['description'] = "forms a fruiting body"		
 	t['stage'] = 5						# advancement level of trait
 	t['org_type'] = 'mushroom' 			# species descriptor, if any
@@ -246,10 +212,6 @@ def fungus(traits):
 	t['pheno_nopes'] = {'puffball':-1,'pores':-1}	
 	t['pheno_tags'] = {'spore_gills':-1} 
 	t['biome_reqs'] = ['soil']
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []			# trait adds tags to biome
-	t['eco_impacts'] = []
-
 	t['description'] = "has spore gills"		
 	t['stage'] = 6						# advancement level of trait
 	t['org_type'] = 'gilled mushroom' 			# species descriptor, if any
@@ -258,12 +220,6 @@ def fungus(traits):
 	t['name'] = 'labyrinthine gills'
 	t['pheno_prereqs'] = {'spore_gills':-1}
 	t['pheno_nopes'] = {'puffball':-1,'pores':-1}	
-	t['pheno_tags'] = {} 
-	t['biome_reqs'] = []
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []			# trait adds tags to biome
-	t['eco_impacts'] = []
-
 	t['description'] = "has fractal gills"		
 	t['stage'] = 6						# advancement level of trait
 	t['org_type'] = 'gilled mushroom' 			# species descriptor, if any
@@ -273,11 +229,6 @@ def fungus(traits):
 	t['pheno_prereqs'] = {'mushroom':-1}
 	t['pheno_nopes'] = {'spore_gills':-1,'pores':-1}	
 	t['pheno_tags'] = {'puffball':-1} 
-	t['biome_reqs'] = []
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []			# trait adds tags to biome
-	t['eco_impacts'] = []
-
 	t['description'] = "forms puffballs"		
 	t['stage'] = 6						# advancement level of trait
 	t['org_type'] = 'puffball' 			# species descriptor, if any
@@ -288,10 +239,7 @@ def fungus(traits):
 	t['pheno_nopes'] = {}	
 	t['pheno_tags'] = {'floats':-1} 
 	t['biome_reqs'] = ['Nitrogen']
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []			# trait adds tags to biome
 	t['eco_impacts'] = ['sky_food']
-
 	t['description'] = "puffballs float in the air"		
 	t['stage'] = 7						# advancement level of trait
 	t['org_type'] = 'skyball' 			# species descriptor, if any
@@ -302,10 +250,6 @@ def fungus(traits):
 	t['pheno_nopes'] = {'spore_gills':-1,'puffball':-1}	
 	t['pheno_tags'] = {'pores':-1} 
 	t['biome_reqs'] = ['soil']
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []			# trait adds tags to biome
-	t['eco_impacts'] = []
-
 	t['description'] = "releases spores from tiny pores"		
 	t['stage'] = 6						# advancement level of trait
 	t['org_type'] = 'polypore' 			# species descriptor, if any
@@ -318,10 +262,7 @@ def animalia(traits):
 	t['pheno_nopes'] = {'hunt':-1}	# organism features needed to *lock* trait				
 	t['pheno_tags'] = {'energy':2,'carbon':2,'propel':1,'graze':-1} 
 	t['biome_reqs'] = ['micro_producer']
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []			# trait adds tags to biome
 	t['eco_impacts'] = ['grazer']
-
 	t['description'] = "grazes on algae"		
 	t['stage'] = 5						# advancement level of trait
 	t['org_type'] = 'algae grazer' 			# species descriptor, if any
@@ -332,10 +273,7 @@ def animalia(traits):
 	t['pheno_nopes'] = {'hunt':-1}	# organism features needed to *lock* trait				
 	t['pheno_tags'] = {'energy':3,'carbon':3,'propel':1,'graze':-1} 
 	t['biome_reqs'] = ['macro_producer']
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []			# trait adds tags to biome
 	t['eco_impacts'] = ['grazer']
-
 	t['description'] = "grazes on plants"		
 	t['stage'] = 5						# advancement level of trait
 	t['org_type'] = 'plant grazer' 			# species descriptor, if any
@@ -346,10 +284,7 @@ def animalia(traits):
 	t['pheno_nopes'] = {'graze':-1}	# organism features needed to *lock* trait				
 	t['pheno_tags'] = {'energy':4,'carbon':4,'propel':2,'hunt':-1} 
 	t['biome_reqs'] = ['grazer']
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []			# trait adds tags to biome
 	t['eco_impacts'] = ['predator']
-
 	t['description'] = "hunts grazers"		
 	t['stage'] = 6						# advancement level of trait
 	t['org_type'] = 'predator' 			# species descriptor, if any
@@ -358,12 +293,8 @@ def animalia(traits):
 	t['name'] = 'no cell wall' 		# otherwise fungus
 	t['pheno_prereqs'] = {'multicellular':-1}					# organism features needed to unlock trait
 	t['pheno_nopes'] = {'plant':-1}	# organism features needed to *lock* trait		
-	t['pheno_tags'] = {'animalia':-1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
+	t['pheno_tags'] = {'animalia':-1} 
 	t['eco_impacts'] = ['animal']			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has animal-like cells"		
 	t['stage'] = 6						# advancement level of trait
 	t['org_type'] = 'fungoid animal' 			# species descriptor, if any
@@ -374,11 +305,6 @@ def animalia(traits):
 	t['pheno_prereqs'] = {'animalia':-1,'tissues':-1,'energy':1}					# organism features needed to unlock trait
 	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'propel':2,'muscle':-1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "uses distinct muscle cells for locomotion"	
 	t['stage'] = 6						# advancement level of trait
 	t['org_type'] = 'jellyfish' 			# species descriptor, if any
@@ -388,11 +314,6 @@ def animalia(traits):
 	t['pheno_prereqs'] = {'animalia':-1,'propel':2,'muscle':-1}					# organism features needed to unlock trait
 	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'energy':3,'bilateral':-1,'propel':2} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has bilateral symmetry and a digestive tract with two ends"	
 	t['stage'] = 7						# advancement level of trait
 	t['org_type'] = 'bilateral animal' 			# species descriptor, if any
@@ -403,12 +324,7 @@ def animalia(traits):
 	t['name'] = 'chordate' 		# otherwise arthropods/molluscs
 	t['pheno_prereqs'] = {'bilateral':-1}		# organism features needed to unlock trait
 	t['pheno_nopes'] = {'exoskeleton':-1}	# organism features needed to *lock* trait		
-	t['pheno_tags'] = {'structure':1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
+	t['pheno_tags'] = {'structure':1} 	
 	t['description'] = "has a spine"	
 	t['stage'] = 8						# advancement level of trait
 	t['org_type'] = 'chordate' 			# species descriptor, if any
@@ -416,55 +332,29 @@ def animalia(traits):
 	t = {}
 	t['name'] = 'slow' 		# jawed chordates are like fish, not creepy worms
 	t['pheno_prereqs'] = {'structure':1,'propel':1,'energy':1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
-	t['pheno_tags'] = {} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
 	t['biome_tols'] = ['cold']					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "tolerates cold"	
-	t['stage'] = 8						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
+	t['stage'] = 7						# advancement level of trait
 	traits.append(t)
 	t = {}
 	t['name'] = 'coordinated' 		# jawed chordates are like fish, not creepy worms
 	t['pheno_prereqs'] = {'energy':1,'structure':1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'structure':1,'propel':1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "moves with coordination"	
 	t['stage'] = 7						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'hibernates' 		# jawed chordates are like fish, not creepy worms
 	t['pheno_prereqs'] = {'energy':1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
-	t['pheno_tags'] = {} 			# traits contributes organism feature
 	t['biome_reqs'] = ['cold','water']			# tag needed in biome
 	t['biome_tols'] = ['frozen']					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "can become dormant"	
 	t['stage'] = 7						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'jawed' 		# jawed chordates are like fish, not creepy worms
 	t['pheno_prereqs'] = {'structure':1,'eyes':2}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'energy':2,'eyes':2,'structure':1,'jaws':-1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has a jaw"	
 	t['stage'] = 9						# advancement level of trait
 	t['org_type'] = 'jawed chordate' 			# species descriptor, if any
@@ -475,10 +365,6 @@ def animalia(traits):
 	t['pheno_nopes'] = {'graze':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'energy':2,'carbon':2} 			# traits contributes organism feature
 	t['biome_reqs'] = ['grazer']			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has sharp teeth"	
 	t['stage'] = 10						# advancement level of trait
 	t['org_type'] = 'carnivore' 			# species descriptor, if any
@@ -488,11 +374,6 @@ def animalia(traits):
 	t['pheno_prereqs'] = {'jaws':-1,'graze':-1}		# organism features needed to unlock trait
 	t['pheno_nopes'] = {'hunt':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'energy':2,'carbon':2} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has grinding teeth"	
 	t['stage'] = 10						# advancement level of trait
 	t['org_type'] = 'herbivore' 			# species descriptor, if any
@@ -500,14 +381,8 @@ def animalia(traits):
 	t = {}
 	t['name'] = 'multifunctional teeth' 		# jawed chordates are like fish, not creepy worms
 	t['pheno_prereqs'] = {'jaws':-1,'hunt':-1,'graze':-1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'energy':4,'carbon':4} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
-	t['description'] = "has sharp teeth"	
+	t['description'] = "has multiple types of teeth"	
 	t['stage'] = 10						# advancement level of trait
 	t['org_type'] = 'omnivore' 			# species descriptor, if any
 	traits.append(t)
@@ -516,11 +391,6 @@ def animalia(traits):
 	t['pheno_prereqs'] = {'bilateral':-1,'structure':1}		# organism features needed to unlock trait
 	t['pheno_nopes'] = {'exoskeleton':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'size':1,'structure':2,'bones':-1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has hard internal bones"	
 	t['stage'] = 10						# advancement level of trait
 	t['org_type'] = 'bony fish' 			# species descriptor, if any
@@ -530,11 +400,6 @@ def animalia(traits):
 	t['pheno_prereqs'] = {'structure':2,'carbon':1,'bones':-1}		# organism features needed to unlock trait
 	t['pheno_nopes'] = {'fur':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'scales':-1,'structure':2} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []		# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "scales protect the body"		
 	t['stage'] = 11						# advancement level of trait
 	t['org_type'] = 'reptiloid' 			# species descriptor, if any
@@ -542,13 +407,7 @@ def animalia(traits):
 	t = {}
 	t['name'] = 'lobe_fins' 		# has hard bones, not just cartilage
 	t['pheno_prereqs'] = {'structure':2,'bones':-1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'structure':2,'propel':1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has lobe-shaped fins"	
 	t['stage'] = 12						# advancement level of trait
 	t['org_type'] = 'lobe-finned fish' 			# species descriptor, if any
@@ -559,13 +418,9 @@ def tetrapods(traits):
 	t = {}
 	t['name'] = 'lungs' 		
 	t['pheno_prereqs'] = {'structure':2,'propel':1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'lungs':-1,'structure':2,'propel':1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['O2']			# tag needed in biome
 	t['biome_tols'] = ['dry']					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "can breathe in the air"		
 	t['stage'] = 13						# advancement level of trait
 	t['org_type'] = 'tetrapod' 			# species descriptor, if any
@@ -573,13 +428,8 @@ def tetrapods(traits):
 	t = {}
 	t['name'] = 'amniotic' 		
 	t['pheno_prereqs'] = {'lungs':-1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'amniote':-1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['dry']			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "can reproduce on dry land"		
 	t['stage'] = 14						# advancement level of trait
 	t['org_type'] = 'amniote' 			# species descriptor, if any
@@ -587,13 +437,9 @@ def tetrapods(traits):
 	t = {}
 	t['name'] = 'homeotherm' 		
 	t['pheno_prereqs'] = {'size':1,'energy':1,'propel':1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'size':1,'warmblooded':-1,'propel':1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['dry']			# tag needed in biome
 	t['biome_tols'] = ['cold','arid']		# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "tolerates a variety of temperatures"		
 	t['stage'] = 15						# advancement level of trait
 	t['org_type'] = 'land animal' 			# species descriptor, if any
@@ -603,11 +449,7 @@ def tetrapods(traits):
 	t['pheno_prereqs'] = {'warmblooded':-1}		# organism features needed to unlock trait
 	t['pheno_nopes'] = {'scales':-1,'feathers':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'fur':-1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
 	t['biome_tols'] = ['freezing']		# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "fur keeps it warm"		
 	t['stage'] = 16						# advancement level of trait
 	t['org_type'] = 'mammal' 			# species descriptor, if any
@@ -615,13 +457,8 @@ def tetrapods(traits):
 	t = {}
 	t['name'] = 'needle fur' 		
 	t['pheno_prereqs'] = {'fur':-1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'spikes':-1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['macro_predator']			# tag needed in biome
-	t['biome_tols'] = []		# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has defensive spikes"		
 	t['stage'] = 17						# advancement level of trait
 	t['org_type'] = 'hedgehog' 			# species descriptor, if any
@@ -629,13 +466,8 @@ def tetrapods(traits):
 	t = {}
 	t['name'] = 'feathers' 		
 	t['pheno_prereqs'] = {'size':1,'scales':-1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'size':1,'feathers':-1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['sand']			# tag needed in biome
-	t['biome_tols'] = []		# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has feather covering"		
 	t['stage'] = 16						# advancement level of trait
 	t['org_type'] = 'theropod' 			# species descriptor, if any
@@ -646,10 +478,6 @@ def tetrapods(traits):
 	t['pheno_nopes'] = {'feathers':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'spikes':-1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['macro_predator']			# tag needed in biome
-	t['biome_tols'] = []		# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has defensive spikes"		
 	t['stage'] = 17						# advancement level of trait
 	t['org_type'] = 'terrorsaur' 			# species descriptor, if any
@@ -659,11 +487,6 @@ def tetrapods(traits):
 	t['pheno_prereqs'] = {'feathers':-1}		# organism features needed to unlock trait
 	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'flight':-1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []		# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has feather covering"		
 	t['stage'] = 17						# advancement level of trait
 	t['org_type'] = 'bird' 			# species descriptor, if any
@@ -676,13 +499,7 @@ def toolusers(traits):
 	t = {}
 	t['name'] = 'big brains' 		
 	t['pheno_prereqs'] = {'eyes':3,'structure':2,'size':3,'energy':1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'brains':1,'eyes':3,'structure':2,'size':2} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []		# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has a big brain"		
 	t['stage'] = 17						# advancement level of trait
 	t['org_type'] = 'big brain' 			# species descriptor, if any
@@ -690,13 +507,7 @@ def toolusers(traits):
 	t = {}
 	t['name'] = 'social brains' 		
 	t['pheno_prereqs'] = {'brains':1,'energy':1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'brains':2} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []		# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "lives in complex social groups"		
 	t['stage'] = 18						# advancement level of trait
 	t['org_type'] = 'social animal' 			# species descriptor, if any
@@ -704,55 +515,31 @@ def toolusers(traits):
 	t = {}
 	t['name'] = 'prehensile paws' 		
 	t['pheno_prereqs'] = {'structure':2}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'prehensile':2,'structure':2} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []		# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has prehensile paws"		
 	t['stage'] = 17						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'prehensile antennae' 		
 	t['pheno_prereqs'] = {'antennae':-1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'prehensile':2} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []		# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has prehensile antennae"		
 	t['stage'] = 17						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'prehensile tail' 		
 	t['pheno_prereqs'] = {'structure':3}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'prehensile':1,'structure':3} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []		# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has a prehensile tail"		
 	t['stage'] = 16						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'toolmaking' 		
 	t['pheno_prereqs'] = {'prehensile':2,'brains':1,'size':1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'toolmaking':-1,'brains':1,'size':1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['rock']			# tag needed in biome
 	t['biome_tols'] = ['arid','freezing']		# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
 	t['eco_impacts'] = ['toolmaker']			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "makes advanced tools"		
 	t['stage'] = 18						# advancement level of trait
 	t['org_type'] = 'toolmaker' 			# species descriptor, if any
@@ -760,13 +547,10 @@ def toolusers(traits):
 	t = {}
 	t['name'] = 'citybuilder' 		
 	t['pheno_prereqs'] = {'toolmaking':-1,'brains':2}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'citybuilder':-1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
 	t['biome_tols'] = ['city']		# tag that forbids a biome
-	t['biome_impacts'] = ['city']		# trait adds tags to biome
+	t['biome_impacts'] = []		# trait adds tags to biome
 	t['eco_impacts'] = ['citybuilder']			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "builds its own biome"		
 	t['stage'] = 19						# advancement level of trait
 	t['org_type'] = 'builder' 			# species descriptor, if any
@@ -774,13 +558,9 @@ def toolusers(traits):
 	t = {}
 	t['name'] = 'interplanetary' 		
 	t['pheno_prereqs'] = {'citybuilder':-1,'energy':1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'interplanetary':-1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['city']			# tag needed in biome
-	t['biome_tols'] = []		# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
 	t['eco_impacts'] = ['interplanetary']			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "moves between planets"		
 	t['stage'] = 20					# advancement level of trait
 	t['org_type'] = 'interplanetary' 			# species descriptor, if any
@@ -788,13 +568,9 @@ def toolusers(traits):
 	t = {}
 	t['name'] = 'interstellar' 		
 	t['pheno_prereqs'] = {'interplanetary':-1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'interstellar':-1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['city']			# tag needed in biome
-	t['biome_tols'] = []		# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
 	t['eco_impacts'] = ['interstellar']			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "moves between stars"		
 	t['stage'] = 21						# advancement level of trait
 	t['org_type'] = 'interstellar' 			# species descriptor, if any
@@ -807,27 +583,17 @@ def eyes(traits):
 	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'eyes':1,'propel':2} 			# traits contributes organism feature
 	t['biome_reqs'] = ['light']			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has simple eye spots"	
 	t['stage'] = 7						# advancement level of trait
 	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'simple eyes' 		
-	t['pheno_prereqs'] = {'eyes':1,'energy':1}					# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
+	t['pheno_prereqs'] = {'eyes':1,'energy':1}					# organism features needed to unlock trait	
 	t['pheno_tags'] = {'eyes':2} 			# traits contributes organism feature
 	t['biome_reqs'] = ['light']			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has simple eyes for limited sight"
 	t['stage'] = 8						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'compound eyes' 		
@@ -835,13 +601,8 @@ def eyes(traits):
 	t['pheno_nopes'] = {'ce':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'eyes':3,'ce':-1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['light']			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has compound eyes"
 	t['stage'] = 9						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'complex eyes' 		
@@ -849,13 +610,8 @@ def eyes(traits):
 	t['pheno_nopes'] = {'ce':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'eyes':3,'ce':-1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['light']			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has complex eyes"
 	t['stage'] = 10						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 
 def arthropods(traits):
@@ -864,11 +620,6 @@ def arthropods(traits):
 	t['pheno_prereqs'] = {'bilateral':-1}		# organism features needed to unlock trait
 	t['pheno_nopes'] = {'bones':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'structure':2,'exoskeleton':-1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has an exoskeleton"
 	t['stage'] = 6						# advancement level of trait
 	t['org_type'] = 'arthropod' 			# species descriptor, if any
@@ -876,55 +627,31 @@ def arthropods(traits):
 	t = {}
 	t['name'] = 'nymf' 		
 	t['pheno_prereqs'] = {'exoskeleton':-1,'energy':1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
-	t['pheno_tags'] = {} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
 	t['biome_tols'] = ['cold']					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "goes through a nymf stage"
 	t['stage'] = 6						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'antenna' 		
 	t['pheno_prereqs'] = {'exoskeleton':-1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'eyes':1,'antennae':-1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "uses sensitive antenna"
 	t['stage'] = 6						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'claw' 		
 	t['pheno_prereqs'] = {'exoskeleton':-1,'eyes':1,'hunt':-1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'eyes':1,'carbon':1,'energy':1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['animal']			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "catches animals with its claw"
 	t['stage'] = 6						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'wings' 		
 	t['pheno_prereqs'] = {'exoskeleton':-1,'eyes':1,'energy':2}		# organism features needed to unlock trait
 	t['pheno_nopes'] = {'size':2}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'flight':1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
 	t['biome_tols'] = ['dry']					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "flies on diaphenous wings"
 	t['stage'] = 7						# advancement level of trait
 	t['org_type'] = 'flying insect' 			# species descriptor, if any
@@ -936,7 +663,6 @@ def arthropods(traits):
 	t['pheno_tags'] = {'energy':1,'carbon':1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['flower']			# tag needed in biome
 	t['biome_tols'] = ['arid']					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
 	t['eco_impacts'] = ['pollinator']			# tags used to interpret ecosystem niche
 				# # of times this trait may be evolved
 	t['description'] = "consumes nectar from flowers"
@@ -946,13 +672,7 @@ def arthropods(traits):
 	t = {}
 	t['name'] = 'legs' 		
 	t['pheno_prereqs'] = {'exoskeleton':-1,'energy':1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'propel':1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "crawls on legs"
 	t['stage'] = 6						# advancement level of trait
 	t['org_type'] = 'insect' 			# species descriptor, if any
@@ -960,30 +680,17 @@ def arthropods(traits):
 	t = {}
 	t['name'] = 'shedding' 		
 	t['pheno_prereqs'] = {'exoskeleton':-1,'carbon':1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'size':1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "sheds its skin"
 	t['stage'] = 6						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'fuzz' 		
 	t['pheno_prereqs'] = {'exoskeleton':-1,'warmblooded':-1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'fur':-1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
 	t['biome_tols'] = ['freezing']		# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "fuzz keeps it warm"		
 	t['stage'] = 6						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	
 def flora(traits):
@@ -993,10 +700,8 @@ def flora(traits):
 	t['pheno_nopes'] = {'propel':-1}		
 	t['pheno_tags'] = {'root':-1} 
 	t['biome_reqs'] = ['sand']
-	t['biome_tols'] = ['dry']		
-	t['biome_impacts'] = []			# trait adds tags to biome
+	t['biome_tols'] = ['dry']
 	t['eco_impacts'] = ['root']
-
 	t['description'] = "has roots"	
 	t['stage'] = 4						# advancement level of trait
 	t['org_type'] = 'mossy plant' 			# species descriptor, if any
@@ -1005,26 +710,16 @@ def flora(traits):
 	t['name'] = 'ion pump'
 	t['pheno_prereqs'] = {'multicellular':-1,'tissues':-1}
 	t['pheno_nopes'] = {'propel':-1,'animalia':-1}		
-	t['pheno_tags'] = {} 
 	t['biome_reqs'] = ['water']
 	t['biome_tols'] = ['cold']		
-	t['biome_impacts'] = []			# trait adds tags to biome
 	t['eco_impacts'] = ['root']
-
 	t['description'] = "tolerates cold waters"	
 	t['stage'] = 4						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'stem' 		
 	t['pheno_prereqs'] = {'root':-1}					# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'vessels':-1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "transports fluids through a vascular system"
 	t['stage'] = 5						# advancement level of trait
 	t['org_type'] = 'vascular plant' 			# species descriptor, if any
@@ -1032,13 +727,8 @@ def flora(traits):
 	t = {}
 	t['name'] = 'leaves' 					# ferns, conifers, endosperms
 	t['pheno_prereqs'] = {'vessels':-1}					# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'energy':1,'carbon':1,'leaves':-1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
 	t['eco_impacts'] = ['leaves']			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has leaves that absorb more sunlight"
 	t['stage'] = 6						# advancement level of trait
 	t['org_type'] = 'leafy plant' 			# species descriptor, if any
@@ -1046,13 +736,8 @@ def flora(traits):
 	t = {}
 	t['name'] = 'needles' 					# ferns, conifers, endosperms
 	t['pheno_prereqs'] = {'leaves':-1,'carbon':1}					# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
-	t['pheno_tags'] = {} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
 	t['biome_tols'] = ['cold']					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
 	t['eco_impacts'] = ['needles']			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has thick needles that tolerate cold"
 	t['stage'] = 7						# advancement level of trait
 	t['org_type'] = 'wintergreen' 			# species descriptor, if any
@@ -1060,30 +745,16 @@ def flora(traits):
 	t = {}
 	t['name'] = 'plant_size1' 		
 	t['pheno_prereqs'] = {'vessels':-1,'carbon':1}					# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'size':1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "grows tall"
 	t['stage'] = 5						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'plant_size2' 		
 	t['pheno_prereqs'] = {'roots':-1,'carbon':1}					# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'size':1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "grows wide"
 	t['stage'] = 5						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'seeds' 						# conifers and angiosperm
@@ -1091,10 +762,7 @@ def flora(traits):
 	t['pheno_nopes'] = {'mushroom':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'seeds':-1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['sand']			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
 	t['eco_impacts'] = ['seeds']			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "forms seeds, which are hardier than spores"
 	t['stage'] = 7						# advancement level of trait
 	t['org_type'] = 'conifer' 			# species descriptor, if any
@@ -1104,9 +772,6 @@ def flora(traits):
 	t['pheno_prereqs'] = {'vessels':-1,'carbon':1}					# organism features needed to unlock trait
 	t['pheno_nopes'] = {'chitin':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'wood':-1,'energy':1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
 	t['eco_impacts'] = ['lignin']			# tags used to interpret ecosystem niche
 				# # of times this trait may be evolved
 	t['description'] = "forms wood, which enables larger size and long life"
@@ -1116,44 +781,25 @@ def flora(traits):
 	t = {}
 	t['name'] = 'tree_size1' 		
 	t['pheno_prereqs'] = {'wood':-1,'carbon':1}					# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'size':2} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
 	t['eco_impacts'] = ['tree']			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "grows very tall"
 	t['stage'] = 5						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'cactuswax' 		
 	t['pheno_prereqs'] = {'seeds':-1}					# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
-	t['pheno_tags'] = {} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
 	t['biome_tols'] = ['arid']					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
-	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "a layer of wax minimises water loss"
 	t['stage'] = 7						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'endosperm' 					
 	t['pheno_prereqs'] = {'seeds':-1}					# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
-	t['pheno_tags'] = {} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
 	t['eco_impacts'] = ['endosperm']			# tags used to interpret ecosystem niche
 				# # of times this trait may be evolved
 	t['description'] = "includes an energy store in its seeds"
 	t['stage'] = 7						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	flowers(traits)
 
@@ -1161,13 +807,8 @@ def flowers(traits):
 	t = {}
 	t['name'] = 'flower' 					
 	t['pheno_prereqs'] = {'seeds':-1}					# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'flower':-1} 			# traits contributes organism feature
-	t['biome_reqs'] = []			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
 	t['eco_impacts'] = ['flower']			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "develops a short-lived flower"
 	t['stage'] = 8						# advancement level of trait
 	t['org_type'] = 'flowering plant' 			# species descriptor, if any
@@ -1178,13 +819,9 @@ def flowers(traits):
 	t['pheno_nopes'] = {'specificflower':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'specificflower':-1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['pollinator']			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
 	t['eco_impacts'] = ['flower']			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has a bell-shaped flower"
 	t['stage'] = 9						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'tube flower' 					
@@ -1192,13 +829,9 @@ def flowers(traits):
 	t['pheno_nopes'] = {'specificflower':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'specificflower':-1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['pollinator']			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
 	t['eco_impacts'] = ['flower']			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has a tube-shaped flower"
 	t['stage'] = 9						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'cluster flower' 					
@@ -1206,16 +839,11 @@ def flowers(traits):
 	t['pheno_nopes'] = {'specificflower':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'specificflower':-1} 			# traits contributes organism feature
 	t['biome_reqs'] = ['pollinator']			# tag needed in biome
-	t['biome_tols'] = []					# tag that forbids a biome
-	t['biome_impacts'] = []		# trait adds tags to biome
 	t['eco_impacts'] = ['flower']			# tags used to interpret ecosystem niche
-				# # of times this trait may be evolved
 	t['description'] = "has a cluster of small flowers"
 	t['stage'] = 9						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
-	
-	
+		
 	
 def getTraits():
 	traits = []
@@ -1226,16 +854,9 @@ def getTraits():
 	t = {}
 	t['name'] = 'tissues'
 	t['pheno_prereqs'] = {'multicellular':-1}
-	t['pheno_nopes'] = {}
-	t['pheno_tags'] = {'tissues':-1,'size':1} 
-	t['biome_reqs'] = []
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []
-	t['eco_impacts'] = []
-
+	t['pheno_tags'] = {'tissues':-1,'size':1}
 	t['description'] = "exhibits differentiated tissues"
 	t['stage'] = 5						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)	
 	
 	t = {}
@@ -1243,39 +864,21 @@ def getTraits():
 	t['pheno_prereqs'] = {'multicellular':-1,'carbon':1}
 	t['pheno_nopes'] = {}	# organism features needed to *lock* trait				
 	t['pheno_tags'] = {'size':1} 
-	t['biome_reqs'] = []
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []			# trait adds tags to biome
-	t['eco_impacts'] = []
-
 	t['description'] = ""	
 	t['stage'] = 5						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'macro_size_2'
 	t['pheno_prereqs'] = {'multicellular':-1,'carbon':1}
 	t['pheno_nopes'] = {}	# organism features needed to *lock* trait				
 	t['pheno_tags'] = {'size':1} 
-	t['biome_reqs'] = []
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []			# trait adds tags to biome
-	t['eco_impacts'] = []
-
 	t['description'] = ""	
 	t['stage'] = 5						# advancement level of trait
-	t['org_type'] = '' 			# species descriptor, if any
 	traits.append(t)
 	t = {}
 	t['name'] = 'multicell'
 	t['pheno_prereqs'] = {'multi_prereq':2,'micro_size':1}
-	t['pheno_nopes'] = {}		
 	t['pheno_tags'] = {'multicellular':-1} 
-	t['biome_reqs'] = []
-	t['biome_tols'] = []		
-	t['biome_impacts'] = []			# trait adds tags to biome
-	t['eco_impacts'] = []
-
 	t['description'] = "is multicellular"	
 	t['stage'] = 4						# advancement level of trait
 	t['org_type'] = 'multicellular organism' 			# species descriptor, if any	

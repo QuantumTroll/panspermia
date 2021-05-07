@@ -17,7 +17,6 @@ from galaxy import Star, Planet, Biome
 #  honestly, I should revisit traits and include pheno and biome prereqs and requirements
 #   prereqs and reqs are checked when looking for available traits
 #   only reqs are checked when looking at biome availability and redundant traits
-#
 #  soil: biome and traits (for plants, animals, and microbes)
 #  toxic: traits
 #  more traits: plant stuff
