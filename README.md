@@ -9,8 +9,10 @@ Usage:
 
 Right, controls are as follows:
 
-Spacebar: start and stop the simulation
-Mouse: To put it succinctly: "click things". Click stars and planets to look at them. Click on biomes and ecological features to filter the list of organisms. Click an organism to look at it. Click on the "asteroid" button on a planet to launch an asteroid. 
-The 's' key: take 1 simulation step
+  Spacebar: start and stop the simulation
+
+  Mouse: To put it succinctly: "click things". Click stars and planets to look at them. Click on biomes and ecological features to filter the list of organisms. Click an organism to look at it. Click on the "asteroid" button on a planet to launch an asteroid. 
+
+  The 's' key: take 1 simulation step
 
 The terminal is going to output a lot of junk, which may or may not be interesting and is probably relevant to whatever I'm mostly working on at a given moment.
