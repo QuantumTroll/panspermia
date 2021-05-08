@@ -76,7 +76,7 @@ class Simulation:
 		id = 0
 		for t in lib:
 			name = t['name']
-			pheno_prereqs = t['pheno_prereqs']
+			pheno_prereqs = t.get('pheno_prereqs',{})
 			pheno_reqs = t.get('pheno_reqs', {})			
 			pheno_nopes = t.get('pheno_nopes', {})	
 			pheno_tags = t.get('pheno_tags', {})

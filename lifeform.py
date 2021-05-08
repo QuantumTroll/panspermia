@@ -287,12 +287,12 @@ class Lifeform:
 	def sumPhenoNeeds(self,traits):
 		pheno_needs = {'carbon':1,'energy':1}	
 		for t in traits:	
-			for dem in t.pheno_prereqs:
+			for dem in t.pheno_reqs:
 				if dem not in pheno_needs:
-					pheno_needs[dem] = t.pheno_prereqs[dem]
+					pheno_needs[dem] = t.pheno_reqs[dem]
 				else:
-					if t.pheno_prereqs[dem] > 0:
-						pheno_needs[dem] += t.pheno_prereqs[dem]	
+					if t.pheno_reqs[dem] > 0:
+						pheno_needs[dem] += t.pheno_reqs[dem]	
 		return pheno_needs		
 	
 	def findAvailableTraits(self):
@@ -307,21 +307,24 @@ class Lifeform:
 			if already_has:
 				continue
 			all_sat = True
-			for prereq in t.pheno_prereqs:
+			# in Python 3.9, there's a | operand for this:
+			requires = {**t.pheno_prereqs,**t.pheno_reqs}
+			for prereq in requires:
 				if prereq not in self.pheno_supply:
-					if not t.pheno_prereqs[prereq] == 0:
+					if not requires[prereq] == 0:
 						all_sat = False
 				elif prereq in self.pheno_needs:
-					if t.pheno_prereqs[prereq] > 0 and t.pheno_prereqs[prereq]+self.pheno_needs[prereq] > self.pheno_supply[prereq]:
+					if requires[prereq] > 0 and requires[prereq]+self.pheno_needs[prereq] > self.pheno_supply[prereq]:
 						all_sat = False
 				else:
-					if t.pheno_prereqs[prereq] > 0 and t.pheno_prereqs[prereq] > self.pheno_supply[prereq]:
+					if requires[prereq] > 0 and requires[prereq] > self.pheno_supply[prereq]:
 						all_sat = False
 					
 			
 			for nope in t.pheno_nopes:
 				if nope in self.pheno_supply and not self.pheno_supply[nope] == 0:
-					all_sat = False
+					if self.pheno_supply[nope] >= t.pheno_nopes[nope]:
+						all_sat = False
 			
 			if all_sat:		
 				candidates.append(t)
