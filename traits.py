@@ -879,6 +879,7 @@ def getTraits():
 	t['name'] = 'multicell'
 	t['pheno_prereqs'] = {'multi_prereq':2,'micro_size':1}
 	t['pheno_tags'] = {'multicellular':-1} 
+	t['biome_prereqs'] = ['water']
 	t['description'] = "is multicellular"	
 	t['stage'] = 4						# advancement level of trait
 	t['org_type'] = 'multicellular organism' 			# species descriptor, if any	

@@ -77,16 +77,18 @@ class Simulation:
 		for t in lib:
 			name = t['name']
 			pheno_prereqs = t['pheno_prereqs']
+			pheno_reqs = t.get('pheno_reqs', {})			
 			pheno_nopes = t.get('pheno_nopes', {})	
 			pheno_tags = t.get('pheno_tags', {})
 			biome_reqs = t.get('biome_reqs', [])
+			biome_prereqs = t.get('biome_reqs', [])			
 			biome_tols = t.get('biome_tols', [])
 			biome_impacts = t.get('biome_impacts', [])
 			eco_impacts = t.get('eco_impacts', [])
 			description = t.get('description', '')
 			stage = t['stage']
 			org_type = t.get('org_type', '')
-			trait = Trait(name, pheno_prereqs, pheno_nopes, pheno_tags, biome_reqs, biome_tols, biome_impacts, eco_impacts, description, stage, org_type, id)
+			trait = Trait(name, pheno_prereqs, pheno_reqs, pheno_nopes, pheno_tags, biome_reqs, biome_prereqs, biome_tols, biome_impacts, eco_impacts, description, stage, org_type, id)
 			list.append(trait)
 			id += 1
 		print(id,"traits loaded")

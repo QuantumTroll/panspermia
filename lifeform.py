@@ -326,12 +326,6 @@ class Lifeform:
 			if all_sat:		
 				candidates.append(t)
 
-		isRV = False
-		for t in self.traits:
-			if t.name == 'radiovore':
-				isRV = True
-				break
-		
 						
 		candidates2 = []
 		# for each biome, get biome supply and check if candidates are happy	
@@ -344,7 +338,7 @@ class Lifeform:
 					candidates2.append(c)
 					continue
 				all_sat = True	
-				for req in c.biome_reqs:
+				for req in c.biome_reqs+c.biome_prereqs:
 					if not req in b.geo_tags and not req in b.eco_tags :
 						all_sat = False
 				if all_sat:
@@ -426,12 +420,14 @@ class Trait:
 	description = ''
 	genome = ''
 	
-	def __init__(self, name, pheno_prereqs, pheno_nopes, pheno_tags, biome_reqs, biome_tols, biome_impacts, eco_impacts, description, stage, org_type, id):
+	def __init__(self, name, pheno_prereqs, pheno_reqs, pheno_nopes, pheno_tags, biome_reqs, biome_prereqs, biome_tols, biome_impacts, eco_impacts, description, stage, org_type, id):
 		self.name = name
 		self.pheno_prereqs = pheno_prereqs
+		self.pheno_reqs = pheno_reqs
 		self.pheno_nopes = pheno_nopes
 		self.pheno_tags = pheno_tags		
 		self.biome_reqs = biome_reqs
+		self.biome_prereqs = biome_prereqs
 		self.biome_tols = biome_tols
 		self.biome_impacts = biome_impacts
 		self.eco_impacts = eco_impacts
