@@ -132,16 +132,37 @@ class Lifeform:
 		eco_tags = []
 		microsize = 0
 		macrosize = 0
+		micropropel = 0
+		macropropel = 0
 		for trait in self.traits:
 		
 			if 'multicellular' in trait.pheno_tags:
 				self.is_multicellular = True
 
 			if 'micro_size' in trait.pheno_tags:
-				microsize += trait.pheno_tags['micro_size'] 	
+				microsize += trait.pheno_tags['micro_size'] 
 
+			if 'micro_size' in trait.pheno_reqs:
+				microsize -= trait.pheno_reqs['micro_size'] 
+					
 			if 'size' in trait.pheno_tags:
 				macrosize += trait.pheno_tags['size']
+
+			if 'size' in trait.pheno_reqs:
+				macrosize += trait.pheno_reqs['size']
+				
+			if 'micro_propel' in trait.pheno_tags:
+				micropropel += trait.pheno_tags['micro_propel'] 
+
+			if 'micro_propel' in trait.pheno_reqs:
+				micropropel -= trait.pheno_reqs['micro_propel'] 
+					
+			if 'propel' in trait.pheno_tags:
+				macropropel += trait.pheno_tags['propel']
+
+			if 'propel' in trait.pheno_reqs:
+				macropropel += trait.pheno_reqs['propel']
+				
 				
 			for bt in trait.biome_impacts:
 				if not bt in biome_tags:
@@ -152,8 +173,10 @@ class Lifeform:
 		
 		if self.is_multicellular:
 			self.size = macrosize+100 
+			self.propel = macropropel
 		else:
 			self.size = microsize
+			self.propel = micropropel
 		
 		self.bio_impacts = biome_tags
 
@@ -165,14 +188,20 @@ class Lifeform:
 			else: # use logic about size here
 				self.eco_niches.append('macro_producer')			
 		
-		if 'predator' in eco_tags:
+		if 'predator' in eco_tags:			
 			if not self.is_multicellular:
 				self.eco_niches.append('micro_predator')
 			else:
-				self.eco_niches.append('macro_predator')		
+				if self.propel > 0:
+					self.eco_niches.append('macro_predator')	
+				else:
+					self.eco_niches.append('trap_predator')				
 		
 		if 'grazer' in eco_tags:
-			self.eco_niches.append('grazer')
+			if self.propel > 0:
+				self.eco_niches.append('grazer')
+			else:  #this did happen!
+				self.eco_niches.append('parasitic growth')
 			
 		#TODO: need to add the new eco_niche stuff from traits
 		# mushroom
@@ -248,9 +277,9 @@ class Lifeform:
 		#print("Evolving ",self.genome)
 		new_traits = copy.copy(self.traits)
 		
-		# 40%: go through traits list, make list of unnecessary ones
+		# 30%: go through traits list, make list of unnecessary ones
 			# remove the trait, updating genome
-		if random.random() < 0.4 and len(self.traits) > 2:
+		if random.random() < 0.3 and len(self.traits) > 2:
 			red = self.findRedundantTrait(new_traits)
 			if red:
 				new_traits.remove(red)

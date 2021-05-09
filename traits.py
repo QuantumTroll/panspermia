@@ -283,7 +283,7 @@ def animalia(traits):
 	t = {}
 	t['name'] = 'hunter'
 	t['pheno_prereqs'] = {'propel':2}	
-	t['pheno_reqs'] = {'multicellular':-1}
+	t['pheno_reqs'] = {'multicellular':-1,'muscle':-1}
 	t['pheno_nopes'] = {'graze':-1}	# organism features needed to *lock* trait				
 	t['pheno_tags'] = {'energy':4,'carbon':4,'hunt':-1} 
 	t['biome_reqs'] = ['grazer']
@@ -306,7 +306,7 @@ def animalia(traits):
 	t = {}
 	t['name'] = 'muscle cells' 		# otherwise sponge
 	t['pheno_reqs'] = {'animalia':-1,'tissues':-1,'energy':1}					# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
+	t['pheno_nopes'] = {'roots':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'propel':2,'muscle':-1} 			# traits contributes organism feature
 	t['description'] = "uses distinct muscle cells for locomotion"	
 	t['stage'] = 6						# advancement level of trait
@@ -315,7 +315,7 @@ def animalia(traits):
 	t = {}
 	t['name'] = 'bilateral' 		# otherwise jellyfish and the like
 	t['pheno_reqs'] = {'animalia':-1,'muscle':-1}					# organism features needed to unlock trait
-	t['pheno_nopes'] = {}	# organism features needed to *lock* trait		
+	t['pheno_nopes'] = {'roots':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'bilateral':-1,'propel':1} 			# traits contributes organism feature
 	t['description'] = "has bilateral symmetry and a digestive tract with two ends"	
 	t['stage'] = 7						# advancement level of trait
@@ -343,6 +343,7 @@ def animalia(traits):
 	t['name'] = 'coordinated' 		# jawed chordates are like fish, not creepy worms
 	t['pheno_prereqs'] = {'structure':1}	
 	t['pheno_reqs'] = {'energy':1}		# organism features needed to unlock trait
+	t['pheno_nopes'] = {'roots':-1}	
 	t['pheno_tags'] = {'propel':1} 			# traits contributes organism feature
 	t['description'] = "moves with coordination"	
 	t['stage'] = 7						# advancement level of trait
@@ -724,7 +725,7 @@ def arthropods(traits):
 	traits.append(t)
 	
 def flora(traits):
-	t = {}							# mosses and liverworts
+	t = {}							# moss es and liverworts
 	t['name'] = 'roots'
 	t['pheno_reqs'] = {'multicellular':-1,'tissues':-1}
 	t['pheno_nopes'] = {'propel':-1}		
@@ -755,7 +756,7 @@ def flora(traits):
 	traits.append(t)
 	t = {}
 	t['name'] = 'leaves' 					# ferns, conifers, endosperms
-	t['pheno_reqs'] = {'vessels':-1}					# organism features needed to unlock trait
+	t['pheno_reqs'] = {'vessels':-1,'photosynthesis':-1}					# organism features needed to unlock trait
 	t['pheno_tags'] = {'energy':1,'carbon':1,'leaves':-1} 			# traits contributes organism feature
 	t['eco_impacts'] = ['leaves']			# tags used to interpret ecosystem niche
 	t['description'] = "has leaves that absorb more sunlight"

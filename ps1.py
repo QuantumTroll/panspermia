@@ -11,24 +11,18 @@ from lifeform import Lifeform
 from lifeform import Trait
 from galaxy import Star, Planet, Biome
 
-# nåt är skumt med hittandet av arter. en builder finns, men dyker inte upp i listorna?
-
 ### 
 # to do list
 #
-#  honestly, I should revisit traits and include pheno and biome prereqs and requirements
-#   prereqs and reqs are checked when looking for available traits
-#   only reqs are checked when looking at biome availability and redundant traits
 #  soil: biome and traits (for plants, animals, and microbes)
 #  toxic: traits
-#  more traits: plant stuff
+#  more traits: plant stuff, e.g. lichens in frozen biomes
 #  more traits: camouflage and looks, e.g. mandibles
 #  citybuilder ecological disaster and special evolution rules
 #  interplanetary asteroid defense
 #  interplanetary/interstellar migration
 #    - select a set of useful/supporting species in the biome(s)
-#   traits: stuff in caverns
-#  warmblooded: requires propel (actually circulatory)
+#   traits: stuff in caverns — how do I get a carbon source in there?
 
 # simulation has stars, planets, age, etc
 class Simulation:
