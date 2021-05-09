@@ -456,7 +456,7 @@ def tetrapods(traits):
 	t = {}
 	t['name'] = 'fur' 		
 	t['pheno_reqs'] = {'warmblooded':-1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {'scales':-1,'feathers':-1}	# organism features needed to *lock* trait		
+	t['pheno_nopes'] = {'scales':-1,'feathers':-1,'fur':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'fur':-1} 			# traits contributes organism feature
 	t['biome_tols'] = ['freezing']		# tag that forbids a biome
 	t['description'] = "fur keeps it warm"		
@@ -518,7 +518,7 @@ def tetrapods(traits):
 def toolusers(traits):
 	t = {}
 	t['name'] = 'big brains' 
-	t['pheno_prereqs']= {'eyes':3,'structure':2,'size':3}	
+	t['pheno_prereqs']= {'eyes':3,'structure':2,'size':2}	
 	t['pheno_reqs'] = {'energy':2}		# organism features needed to unlock trait
 	t['pheno_tags'] = {'brains':1} 			# traits contributes organism feature
 	t['description'] = "has a big brain"		
@@ -571,7 +571,7 @@ def toolusers(traits):
 	t['name'] = 'citybuilder' 		
 	t['pheno_prereqs'] = {'toolmaking':-1,'brains':2}		# organism features needed to unlock trait
 	t['pheno_tags'] = {'citybuilder':-1} 			# traits contributes organism feature
-	t['biome_tols'] = ['city']		# tag that forbids a biome
+	t['biome_tols'] = []		# tag that forbids a biome
 	t['biome_impacts'] = []		# trait adds tags to biome
 	t['eco_impacts'] = ['citybuilder']			# tags used to interpret ecosystem niche
 	t['description'] = "builds its own biome"		
@@ -717,6 +717,7 @@ def arthropods(traits):
 	t['name'] = 'fuzz' 		
 	t['pheno_reqs'] = {'exoskeleton':-1,'warmblooded':-1}		# organism features needed to unlock trait
 	t['pheno_tags'] = {'fur':-1} 			# traits contributes organism feature
+	t['pheno_nopes'] = {'fur':-1}
 	t['biome_tols'] = ['freezing']		# tag that forbids a biome
 	t['description'] = "fuzz keeps it warm"		
 	t['stage'] = 6						# advancement level of trait

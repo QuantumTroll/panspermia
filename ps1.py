@@ -11,6 +11,8 @@ from lifeform import Lifeform
 from lifeform import Trait
 from galaxy import Star, Planet, Biome
 
+# nåt är skumt med hittandet av arter. en builder finns, men dyker inte upp i listorna?
+
 ### 
 # to do list
 #
@@ -260,7 +262,7 @@ class Scene:
 			if self.ecodisp == '':
 				lifelist = self.biomedisp.lifeforms
 			else:
-				for form in self.biomedisp.lifeforms:
+				for form in self.biomedisp.lifeforms:					
 					if self.ecodisp in form.eco_niches:
 						lifelist.append(form)
 		

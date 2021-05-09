@@ -55,7 +55,7 @@ class Star:
 # planets are more interesting   
 class Planet:
 	def __init__(self,star, traits, distance):
-		self.max_lifeforms = 1800
+		self.max_lifeforms = 2000
 		self.id = random.randint(0,1000000)
 		self.type = ''
 		self.star = star
@@ -376,7 +376,7 @@ class Planet:
 		# create new biomes
 		cities = []
 		for b in lifeform.biomes:
-			city = Biome(self,b.type+' city',b.atmo,b.geo_tags+['city'],b.eco_tags+['builder'],b.hazards)
+			city = Biome(self,b.type+' city',b.atmo,b.geo_tags+['city'],b.eco_tags+['builder'],b.hazards+[])
 			cities.append(city)
 			self.biomes.append(city)
 #			print("added",city.type,"biome to planet")
