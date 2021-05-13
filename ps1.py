@@ -19,6 +19,8 @@ from galaxy import Star, Planet, Biome
 #  more traits: plant stuff, e.g. lichens in frozen biomes
 #  more traits: camouflage and looks, e.g. mandibles
 #  citybuilder ecological disaster and special evolution rules
+		#  I want city-building species to kill off their parents.
+		#  I want only one city-building species in a biome 
 #  interplanetary asteroid defense
 #  interplanetary/interstellar migration
 #    - select a set of useful/supporting species in the biome(s)

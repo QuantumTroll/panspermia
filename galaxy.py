@@ -148,12 +148,11 @@ class Planet:
 			if is_radioactive:
 				self.biomes.append( Biome(self,'radium sea', True, ['water','light', 'sludge', 'radiation'], [],['radiation']) )
 			self.biomes.append( Biome(self,'beach',True,['light','sand','cold'], [],['cold']) )
-			self.biomes.append( Biome(self,'land',True,['light','sand','rock','dry','cold'], [],['dry','cold']) )
+			self.biomes.append( Biome(self,'tundra',True,['light','sand','rock','dry','cold'], [],['dry','cold']) )
 			if random.random() < 0.5:
 				self.biomes.append( Biome(self,'frozen desert', True, ['light', 'sand', 'rock', 'dry','arid','frozen'], [],['dry','arid','frozen']) )
 			else:
 				self.biomes.append( Biome(self,'frozen ocean',False,['water','sand','rock','frozen'], [],['frozen']) )		
-			self.biomes.append( Biome(self,'tundra',True,['light','sand','rock','dry','cold'], [],['dry','cold']) )
 			self.biomes.append( Biome(self,'icecap',True,['light','sand','rock','dry','cold','frozen'], [],['dry','cold','frozen']) )		
 			
 			self.atmosphere = []
