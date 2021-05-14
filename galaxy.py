@@ -311,7 +311,36 @@ class Planet:
 		if len(self.lifeforms) > 0:
 			print("Planet",self.name,":",len(self.lifeforms),"plus",len(new_forms),'new')
 		for new in new_forms:
+			if not new.is_alive:
+				continue
 			self.addLifeform(new)
+			if new.is_jealous: # jealous species kill off other jealous species weaker than them
+#				print(">>>jealous:",new.id)
+#				print(">>>killing parent and other builders in same biome")
+				new.parent.kill()
+				myStage = 0
+				for t in new.traits:
+					if myStage < t.stage:
+						myStage = t.stage
+				for b in new.biomes:
+#					print(">>>>>checking",b.type,"for other jealous")
+					kills = []
+					for form in b.lifeforms:
+						if not form == new:
+							if form.is_jealous:
+								formStage = 0
+								for  t in form.traits:
+									if formStage < t.stage:
+										formStage = t.stage
+								if myStage >= formStage:
+									kills.append(form)
+#								else:
+#									print(">>>>>>>>did not kill",myStage,formStage)
+					for k in kills:
+#						print(">>>>>>>>killing",k.description,k.id)
+						k.kill()
+							
+			
 #		print("     new lifeforms added")
 # for each lifeform, find biomes that fit, killing the ones that have no biome	
 		for b in self.biomes:

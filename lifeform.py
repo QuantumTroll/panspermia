@@ -22,6 +22,7 @@ class Lifeform:
 		self.description = ''
 		self.name = ''
 		self.is_multicellular = False
+		self.is_jealous = False
 		self.pheno_needs = {}
 		self.pheno_supply = {}
 		self.biome_reqs = []
@@ -243,6 +244,7 @@ class Lifeform:
 		
 		if 'citybuilder' in eco_tags:
 			self.eco_niches.append('builder')
+			self.is_jealous = True
 			cities = self.planet.cityBuilder(self)
 		
 		if 'interplanetary' in eco_tags:
@@ -273,6 +275,9 @@ class Lifeform:
 		
 		if len(self.children) > 2 or random.random() > 2.0/(self.age+2):					
 			return False						
+		
+		
+
 			
 		#print("Evolving ",self.genome)
 		new_traits = copy.copy(self.traits)

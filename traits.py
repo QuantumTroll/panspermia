@@ -306,7 +306,7 @@ def animalia(traits):
 	t = {}
 	t['name'] = 'muscle cells' 		# otherwise sponge
 	t['pheno_reqs'] = {'animalia':-1,'tissues':-1,'energy':1}					# organism features needed to unlock trait
-	t['pheno_nopes'] = {'roots':-1}	# organism features needed to *lock* trait		
+	t['pheno_nopes'] = {'root':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'propel':2,'muscle':-1} 			# traits contributes organism feature
 	t['description'] = "uses distinct muscle cells for locomotion"	
 	t['stage'] = 6						# advancement level of trait
@@ -315,7 +315,7 @@ def animalia(traits):
 	t = {}
 	t['name'] = 'bilateral' 		# otherwise jellyfish and the like
 	t['pheno_reqs'] = {'animalia':-1,'muscle':-1}					# organism features needed to unlock trait
-	t['pheno_nopes'] = {'roots':-1}	# organism features needed to *lock* trait		
+	t['pheno_nopes'] = {'root':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'bilateral':-1,'propel':1} 			# traits contributes organism feature
 	t['description'] = "has bilateral symmetry and a digestive tract with two ends"	
 	t['stage'] = 7						# advancement level of trait
@@ -343,7 +343,7 @@ def animalia(traits):
 	t['name'] = 'coordinated' 		# jawed chordates are like fish, not creepy worms
 	t['pheno_prereqs'] = {'structure':1}	
 	t['pheno_reqs'] = {'energy':1}		# organism features needed to unlock trait
-	t['pheno_nopes'] = {'roots':-1}	
+	t['pheno_nopes'] = {'root':-1}	
 	t['pheno_tags'] = {'propel':1} 			# traits contributes organism feature
 	t['description'] = "moves with coordination"	
 	t['stage'] = 7						# advancement level of trait
@@ -726,14 +726,14 @@ def arthropods(traits):
 	
 def flora(traits):
 	t = {}							# moss es and liverworts
-	t['name'] = 'roots'
+	t['name'] = 'root'
 	t['pheno_reqs'] = {'multicellular':-1,'tissues':-1}
 	t['pheno_nopes'] = {'propel':-1}		
 	t['pheno_tags'] = {'root':-1} 
 	t['biome_reqs'] = ['sand']
 	t['biome_tols'] = ['dry']
 	t['eco_impacts'] = ['root']
-	t['description'] = "has roots"	
+	t['description'] = "has root"	
 	t['stage'] = 4						# advancement level of trait
 	t['org_type'] = 'mossy plant' 			# species descriptor, if any
 	traits.append(t)
@@ -781,7 +781,7 @@ def flora(traits):
 	traits.append(t)
 	t = {}
 	t['name'] = 'plant_size2' 		
-	t['pheno_reqs'] = {'roots':-1,'carbon':1}					# organism features needed to unlock trait
+	t['pheno_reqs'] = {'root':-1,'carbon':1}					# organism features needed to unlock trait
 	t['pheno_tags'] = {'size':1} 			# traits contributes organism feature
 	t['description'] = "grows wide"
 	t['stage'] = 5						# advancement level of trait
