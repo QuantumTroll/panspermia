@@ -284,7 +284,7 @@ class Lifeform:
 		
 		# 15%: go through traits list, make list of unnecessary ones
 			# remove the trait, updating genome
-		if random.random() < 0.15 and len(self.traits) > 2:
+		if random.random() < 0.25 and len(self.traits) > 2:
 			red = self.findRedundantTrait(new_traits)
 			if red:
 				new_traits.remove(red)
