@@ -225,10 +225,14 @@ class Planet:
 	#	print(len(self.lifeforms))
 		
 	def asteroid(self):
-		print("Asteroid on planet",self.id)
+		for b in self.biomes:
+			if 'interplanetary' in b.eco_tags:
+				print("Asteroid redirected from planet",self.id)
+				return []
+		print("Asteroid on planet",self.id)				
 		spread = []
-		death_rate_sea = random.random()*0.2 + 0.8		
-		death_rate_land = random.random()*0.3 + 0.7	
+		death_rate_sea = random.random()*0.4 + 0.6		
+		death_rate_land = random.random()*0.5 + 0.5	
 		print("death rate",death_rate_sea,"and",death_rate_land,"on sea and land")
 		spread_rate_sea = random.random()*0.1
 		spread_rate_land = random.random()*0.01
@@ -334,6 +338,8 @@ class Planet:
 										formStage = t.stage
 								if myStage >= formStage:
 									kills.append(form)
+								else:
+									kills.append(new)
 #								else:
 #									print(">>>>>>>>did not kill",myStage,formStage)
 					for k in kills:
@@ -396,21 +402,21 @@ class Planet:
 		if self.has_builder:
 			# check if builders live in a biome that does not have cities yet
 			new_city = False	
-			print("checking for new cities")		
+#			print("checking for new cities")		
 			for b in lifeform.biomes:
-				print("checking",b.type)
+#				print("checking",b.type)
 				has_city = False
 				for pb in self.biomes:
 					if b.type in pb.type and 'city' in pb.type:						
 						has_city = True
-						print("found",pb.type)
-					else:
-						print("no match on",pb.type)
+#						print("found",pb.type)
+#					else:
+#						print("no match on",pb.type)
 				if not has_city:
-					print(">>need new city on",b.type)
+#					print(">>need new city on",b.type)
 					new_city = True
-				else:
-					print(">>no need on",b.type)
+#				else:
+#					print(">>no need on",b.type)
 			if not new_city:
 				return
 			
@@ -429,18 +435,19 @@ class Planet:
 				if b.type in pb.type and 'city' in pb.type:	
 					noneed = True
 			if noneed:
-				print("skipping",b.type,"city")
+#				print("skipping",b.type,"city")
 				continue
 			city = Biome(self,b.type+' city',b.atmo,b.geo_tags+['city'],b.eco_tags+['builder'],b.hazards+[])
 			cities.append(city)
 			self.biomes.append(city)
-			print("added",city.type,"biome to planet")
+#			print("added",city.type,"biome to planet")
 						
 		# add toxic to random biome
 		biome = random.choice(self.biomes)
-		biome.hazards.append('toxic')
-		biome.geo_tags.append('toxic')
-		biome.type = 'toxic ' + biome.type
+		if not 'toxic' in biome.hazards:
+			biome.hazards.append('toxic')
+			biome.geo_tags.append('toxic')
+			biome.type = 'toxic ' + biome.type
 		# do mass extinction
 #		print("made toxic biome")
 		
