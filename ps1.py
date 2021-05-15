@@ -14,17 +14,25 @@ from galaxy import Star, Planet, Biome
 ### 
 # to do list
 #
+#  citybuilding mass extinction
+#  
+#  cities should have fewer species. make city into a hazard, introduce city-tolerance into traits – eg social brains, something like "quick-growing roots" (for weeds), stuff that make plants good food (root energy store, endosperm), fast reproduction (for small creatures, like rats and cockroaches)
+#
 #  soil: biome and traits (for plants, animals, and microbes)
 #  toxic: traits
 #  more traits: plant stuff, e.g. lichens in frozen biomes
 #  more traits: camouflage and looks, e.g. mandibles
-#  citybuilder ecological disaster and special evolution rules
-		#  I want city-building species to kill off their parents.
-		#  I want only one city-building species in a biome 
-#  interplanetary asteroid defense
+#   traits: stuff in caverns — how do I get a carbon source in there?
+
 #  interplanetary/interstellar migration
 #    - select a set of useful/supporting species in the biome(s)
-#   traits: stuff in caverns — how do I get a carbon source in there?
+#    - cause mass extinction on destination planet
+
+# how do I even want migration to work?
+#   1. ip species spreads within system, bringing ecosystem with it
+#   2. now have 4 ip species in system. This would all be easier if they sync'd.
+#   3. Maybe they can simply receive a link to the homeworld species, which decides their evolution? 
+#   4. Corollary: only homeworld sends out interstellar colonies? a bit sad, but certainly easier. 
 
 # simulation has stars, planets, age, etc
 class Simulation:
