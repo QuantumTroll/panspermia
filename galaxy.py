@@ -393,8 +393,26 @@ class Planet:
 		
 	def cityBuilder(self, lifeform):
 
-		if self.has_builder:			
-			return
+		if self.has_builder:
+			# check if builders live in a biome that does not have cities yet
+			new_city = False	
+			print("checking for new cities")		
+			for b in lifeform.biomes:
+				print("checking",b.type)
+				has_city = False
+				for pb in self.biomes:
+					if b.type in pb.type and 'city' in pb.type:						
+						has_city = True
+						print("found",pb.type)
+					else:
+						print("no match on",pb.type)
+				if not has_city:
+					print(">>need new city on",b.type)
+					new_city = True
+				else:
+					print(">>no need on",b.type)
+			if not new_city:
+				return
 			
 		print("CITY BUILDER:",lifeform.id)	
 		print("city builder on planet",self.name)
@@ -404,10 +422,19 @@ class Planet:
 		# create new biomes
 		cities = []
 		for b in lifeform.biomes:
+			if 'city' in b.type:
+				return
+			noneed = False
+			for pb in self.biomes:
+				if b.type in pb.type and 'city' in pb.type:	
+					noneed = True
+			if noneed:
+				print("skipping",b.type,"city")
+				continue
 			city = Biome(self,b.type+' city',b.atmo,b.geo_tags+['city'],b.eco_tags+['builder'],b.hazards+[])
 			cities.append(city)
 			self.biomes.append(city)
-#			print("added",city.type,"biome to planet")
+			print("added",city.type,"biome to planet")
 						
 		# add toxic to random biome
 		biome = random.choice(self.biomes)
