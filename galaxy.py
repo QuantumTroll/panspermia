@@ -171,6 +171,20 @@ class Planet:
 		self.max_lifeforms = int(self.max_lifeforms)
 	
 	def cull(self):
+		kill_list = []
+		# kill ascended races
+		for f in self.lifeforms:
+			if 'interstellar' in f.description:
+				print("INTERSTELLAR AGE:",f.age,"on",f.planet.name,f.has_migrated)
+			if 'interstellar' in f.description and f.has_migrated: # f.age > 1:
+				print("KILLING INTERSTELLAR ON",f.planet.name)
+				kill_list.append(f)
+		
+		for f in kill_list:
+			f.kill()
+		
+		kill_list = []	
+	
 		num_to_die = len(self.lifeforms) - self.max_lifeforms 
 		if num_to_die < 0:
 			return
@@ -193,7 +207,6 @@ class Planet:
 			if len(b.lifeforms) < threshold:
 				protected_biomes.append(b)
 			
-		kill_list = []
 		while num_to_die > 0:
 			f = random.choice(self.lifeforms)
 			# randomly exempt microbiome
@@ -305,8 +318,11 @@ class Planet:
 	def evolve(self):
 #		print("Evolving planet geologies")		# nothing for now	
 		# Todo: clear out e.g. oxygen if no oxygen-producing species
-		# for each lifeform, evolve it according to its current biomes
 		
+		#TODO: open question for evolution in empires. how shall i do it? maybe just let the first member evolve, propagate this to the master, then the rest follow?
+		# NO! Just forbid evolution outright and just added interstellar trait to yourself. Then each planet can send out its own interstellar migration wave.
+		
+		# for each lifeform, evolve it according to its current biomes		
 		new_forms = []
 		for form in self.lifeforms: 		
 			new = form.evolve(self.traits)										
@@ -455,28 +471,34 @@ class Planet:
 		return cities
 		
 	def interplanetary(self, lifeform):
-
-		if self.has_interplanetary:			
+		
+		# if this is the homeworld lifeform
+		if not lifeform.member_of:
+			if not lifeform in self.star.sim.migrants:
+				self.star.sim.migrants.append(lifeform)
+		else:
 			return
 			
 		print("INTERPLANETARY:",lifeform.id)	
 		print("interplanetary on planet",self.name)
 		self.has_interplanetary = True
 		
-		# do migration to in-system planets
-		
 		self.star.sim.running = False
 		
 	def interstellar(self, lifeform):
 
-		if self.has_interplanetary:			
+		if not lifeform.has_migrated:
+			if not lifeform in self.star.sim.migrants:
+				self.star.sim.migrants.append(lifeform)
+		else:
+			
 			return
 			
 		print("INTERSTELLAR:",lifeform.id)	
 		print("interstellar on planet",self.name)
 		self.has_interstellar = True
 		
-		# do migration to in-system planets
+		
 		
 		self.star.sim.running = False
 			
@@ -511,7 +533,13 @@ class Biome:
 			self.lifelist[form.description] -= 1
 	def addHazard(self,tag):
 		if not tag in self.hazards:		
-			self.hazards.append(tag)	
+			self.hazards.append(tag)
+	
+	def isAtmoTag(self,tag):
+		if tag in ['O2','methane','CO2']:
+			return True
+		return False
+		
 	def addGeoTag(self,tag):
 		if not tag in self.geo_tags:		
 			self.geo_tags.append(tag)
@@ -520,7 +548,7 @@ class Biome:
 				self.hazards.append(tag)
 			# check if geo_tag is an atmospheric property
 			if self.atmo:
-				if  tag in ['O2','methane','CO2']:
+				if self.isAtmoTag(tag):
 					self.planet.addTagToAtmo(tag)
 	def addEcoTag(self,tag):
 		self.eco_tags.append(tag)		

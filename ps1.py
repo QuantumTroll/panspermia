@@ -53,6 +53,8 @@ class Simulation:
 		# load up all the traits
 		self.traits = self.loadTraits()
 		
+		self.migrants = []		
+		
 		print("Creating stars & planets")
 		# create stars with planets
 		for i in range(0,num_stars):
@@ -109,6 +111,9 @@ class Simulation:
 			star.updatePos(self.age)
 			star.evolve()
 		# handle interstellar events
+		
+		self.migrations()
+		
 		print("Step complete")
 		
 	def asteroid(self,planet):
@@ -131,6 +136,129 @@ class Simulation:
 		for s in self.stars:
 			if math.dist(starPos,s.position) < spread_radius:
 				s.seedForms(forms)
+
+	def addToCaravan(self,caravan,migrant,biome,eco_reqs,geo_reqs):
+		caravan.append(migrant)
+	#	print("added",migrant.description,"to caravan")
+		new_ecos = []
+		for req in migrant.biome_reqs:
+			# decide if a tag is an eco_tag or not
+			if req in biome.geo_tags and not req in geo_reqs:
+#				print("  new geo req",req)
+				geo_reqs.append(req)
+			elif req in biome.eco_tags and not req in eco_reqs:
+				new_ecos.append(req)
+			#else:
+			#	print("Warning: requirement",req," not found in",biome.type)
+				
+		for req in new_ecos:
+	#		print("    adding eco requirement",req)
+			eco_reqs.append(req)
+			# find a random species in biome that satisfies the requirement
+			candidates = []
+			for form in biome.lifeforms:
+				if req in form.eco_niches:
+					candidates.append(form)
+			num_new = random.randint(1,min(4,len(candidates)))
+			for i in range(num_new):
+				new_member = random.choice(candidates)
+				self.addToCaravan(caravan,new_member,biome,eco_reqs,geo_reqs)
+
+	def migrations(self):
+		if not len(self.migrants) > 0:
+			return
+		print("Performing migration")
+		
+		for migrant in self.migrants:
+			if not migrant.is_alive or migrant.has_migrated:
+				continue
+			
+			migrant.has_migrated = True
+			
+
+			# identify terraforming requirements (atmospheric + geological, e.g. city)
+			# also identify necessary ecological niches
+			# to select companion species
+			eco_reqs = []
+			geo_reqs = []
+			caravan = []			
+			biome = random.choice(migrant.biomes)
+			print("migration from",biome.type," lead by",migrant.id)					
+			self.addToCaravan(caravan,migrant,biome,eco_reqs,geo_reqs)								
+			
+			print("   migrating",len(caravan),"species")
+			caravan.reverse() # so that we add the last species first
+			
+			# choose planets to migrate to			
+			target_planets = []			
+			if 'stellar' in migrant.description:
+				print("interstellar migration from",migrant.planet.name)				
+				# find nearby stars and seed life
+				starPos  = migrant.planet.star.position
+				spread_radius = 25
+				for s in self.stars:
+					if s == migrant.planet.star:
+							continue
+					# move to like 25% of available systems?
+					if random.random() < 0.25 and math.dist(starPos,s.position) < spread_radius:						
+						for p in s.planets:
+							has_right_biome = False
+							biometype = biome.type.split()[0]
+							for b in p.biomes:
+								if biometype in b.type and not 'interstellar' in b.eco_tags:
+									has_right_biome = True
+							if has_right_biome:								
+								target_planets.append(p)
+							
+			else:
+				print("   interplanetary migration from",migrant.planet.name)
+				for p in migrant.planet.star.planets:
+					if p == migrant.planet:
+						continue
+					has_right_biome = False
+					has_interplanetary = False
+					biometype = biome.type.split()[0]
+					for b in p.biomes:
+						if biometype in b.type:
+							has_right_biome = True
+						if 'interplanetary' in b.eco_tags:
+							has_interplanetary = True
+					if has_right_biome and not has_interplanetary:								
+						target_planets.append(p)
+		
+			for p in target_planets:
+				print("   migrating to",p.name)
+			#	print("    terraforming...")
+				
+				# this is dumb. TODO: check the entire planet for interplanetaries
+				for b in p.biomes:
+					biometype = biome.type.split()[0]
+					if biometype in b.type and not 'interplanetary' in b.eco_tags:
+						the_biome = b
+				
+				target_biome = Biome(p,the_biome.type+' city',the_biome.atmo,the_biome.geo_tags+[],the_biome.eco_tags+[],the_biome.hazards+[])
+				
+				p.biomes.append(target_biome)
+				
+				for g in geo_reqs:
+					if not g in target_biome.geo_tags:
+						target_biome.addGeoTag(g)
+				#		print("     Added",g,"to ",target_biome.type)
+
+
+				for l in caravan:
+			#		print("  migrating",l.description)
+					form = l.makeCopyForPlanet(p)
+					if l == migrant:
+						form.member_of = migrant
+					
+					form.has_migrated = True		
+								
+					p.addLifeform(form)
+					form.addImpactsToBiomes()
+			#		print("  form is alive?",form.is_alive)
+			
+		self.migrants = []
 
 class Scene:	
 	def __init__(self):

@@ -21,6 +21,9 @@ class Lifeform:
 		self.size = 0
 		self.description = ''
 		self.name = ''
+		self.member_of = None
+		self.members = []
+		self.has_migrated = False
 		self.is_multicellular = False
 		self.is_jealous = False
 		self.pheno_needs = {}
@@ -62,6 +65,9 @@ class Lifeform:
 		self.planet.removeLifeform(self)
 		for b in self.biomes:
 			b.removeLifeform(self)
+		
+		for form in self.members:
+			form.kill()
 	
 	def genDescription(self):
 		maxTraits = []
@@ -95,8 +101,12 @@ class Lifeform:
 					self.biome_reqs.append(b_req)
 			for b_tol in trait.biome_tols:
 				if not b_tol in self.biome_tols:
-					self.biome_tols.append(b_tol)				
-	
+					self.biome_tols.append(b_tol)	
+					
+		if 'interplanetary' in self.description:
+			print(">",self.description,"needs:") 			
+			for req in self.biome_reqs:
+				print(req)
 	def findBiomes(self):
 		# clear biomes list
 		self.biomes = []		
@@ -108,12 +118,16 @@ class Lifeform:
 			for req in self.biome_reqs:
 				# check if req is in b.geo_tags or b.eco_tags 				
 				if not (req in b.geo_tags or req in b.eco_tags):
+					#if 'interplanetary' in self.description:
+					#	print(">>",req,"not found in",b.type)
 					all_sat = False
 			if not all_sat:
 				continue
 				
 			for h in b.hazards:
 				if not h in self.biome_tols:
+					#if 'interplanetary' in self.description:
+					#	print(">>",h,"not tolerated in",b.type)
 					all_sat = False		
 					
 			if all_sat:
@@ -121,7 +135,9 @@ class Lifeform:
 				b.addLifeform(self)
 			
 		if len(self.biomes) < 1:
-		#	print("No biomes found. Killing lifeform",self.genome)
+			#if 'interplanetary' in self.description:
+			#	print("No biomes found. Killing lifeform",self.description)
+		
 			self.planet.removeLifeform(self)
 			self.is_alive = False
 	
@@ -273,7 +289,23 @@ class Lifeform:
 		if not self.is_alive:
 			return False				
 		
-		if len(self.children) > 2 or random.random() > 2.0/(self.age+2):					
+		if 'interstellar' in self.description:
+			return False
+		
+		if 'interplanetary' in self.description and not 'interstellar' in self.description:
+			if self.age > 1:
+				self.has_migrated = False
+				# find interstellar trait
+				for t in self.planet.traits:
+					if t.name == 'interstellar':
+						interstellar = copy.copy(t)
+						loc = random.randint(0,len(self.traits))
+						self.traits.insert(loc,interstellar)
+						self.refresh()		
+		
+		
+		
+		if (len(self.children) > 2) or random.random() > 2.0/(self.age+2):					
 			return False						
 		
 		
@@ -282,7 +314,7 @@ class Lifeform:
 		#print("Evolving ",self.genome)
 		new_traits = copy.copy(self.traits)
 		
-		# 15%: go through traits list, make list of unnecessary ones
+		# 25%: go through traits list, make list of unnecessary ones
 			# remove the trait, updating genome
 		if random.random() < 0.25 and len(self.traits) > 2:
 			red = self.findRedundantTrait(new_traits)
@@ -305,6 +337,8 @@ class Lifeform:
 				
 		form = Lifeform(self,self.planet,new_traits) 		
 		self.children.append( form )
+	
+		
 		return form
 	
 	def sumPhenoSupply(self,traits):		

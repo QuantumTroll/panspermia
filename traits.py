@@ -297,7 +297,7 @@ def animalia(traits):
 	t['pheno_reqs'] = {'multicellular':-1}					# organism features needed to unlock trait
 	t['pheno_nopes'] = {'plant':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'animalia':-1} 
-	t['eco_impacts'] = ['animal']			# tags used to interpret ecosystem niche
+	t['eco_impacts'] = []			# tags used to interpret ecosystem niche
 	t['description'] = "has animal-like cells"		
 	t['stage'] = 6						# advancement level of trait
 	t['org_type'] = 'fungoid animal' 			# species descriptor, if any
@@ -671,7 +671,7 @@ def arthropods(traits):
 	t['pheno_prereqs'] = {	'eyes':1}	
 	t['pheno_reqs'] = {'exoskeleton':-1,'hunt':-1}		# organism features needed to unlock trait
 	t['pheno_tags'] = {'carbon':1,'energy':1} 			# traits contributes organism feature
-	t['biome_reqs'] = ['animal']			# tag needed in biome
+	t['biome_reqs'] = ['grazer']			# tag needed in biome
 	t['description'] = "catches animals with its claw"
 	t['stage'] = 6						# advancement level of trait
 	traits.append(t)
