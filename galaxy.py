@@ -65,6 +65,7 @@ class Planet:
 		self.setBiomes()
 		self.generateName()	
 		self.lifeforms = []		
+		self.kill_list = []
 		#self.addTagToAtmo('Sulfur')
 		self.has_builder = False
 		self.has_interplanetary = False				
@@ -171,6 +172,10 @@ class Planet:
 		self.max_lifeforms = int(self.max_lifeforms)
 	
 	def cull(self):
+		for f in self.kill_list:
+			f.kill()
+		self.kill_list = []
+		
 		kill_list = []
 		# kill ascended races
 		for f in self.lifeforms:
@@ -440,7 +445,8 @@ class Planet:
 		print("city builder on planet",self.name)
 		self.has_builder = True
 		
-		# TODO: rethink this a bit. Avoid creating a new city biome if there's already one there or if there's a Ruins biome. Rename the Ruins biome to City biome.
+		# TODO: Rename the Ruins biome to City biome. Or let people live in ruins, I guess. 
+		# TODO: double-check if this works properly
 		# create new biomes
 		cities = []
 		for b in lifeform.biomes:
@@ -448,7 +454,7 @@ class Planet:
 				return
 			noneed = False
 			for pb in self.biomes:
-				if b.type in pb.type and ('city' in pb.type):	
+				if b.type in pb.type and ('city' in pb.type or 'ruin' in pb.type):	
 					noneed = True
 			if noneed:
 #				print("skipping",b.type,"city")
@@ -465,11 +471,57 @@ class Planet:
 			biome.hazards.append('toxic')
 			biome.geo_tags.append('toxic')
 			biome.type = 'toxic ' + biome.type
+			
 		# do mass extinction
-#		print("made toxic biome")
+		print("Mass extinction on planet",self.name)
+		death_rate_sea = random.random()*0.4 + 0.6		
+		death_rate_land = random.random()*0.5 + 0.5	
+		print("  death rate",death_rate_sea,"and",death_rate_land,"on sea and land")
+		kill_list = []
+		for f in self.lifeforms:
+			deathrate = death_rate_sea
+			for b in f.biomes:
+				if not 'water' in b.geo_tags:
+					deathrate = death_rate_land
+			
+			if random.random() < deathrate and not f == lifeform:
+				kill_list.append(f)
+		
+		for f in kill_list:
+			f.kill()							
+		
+		print(len(self.lifeforms),"lifeforms survived")
 		
 		self.star.sim.running = False
 		return cities
+	
+	def migrationDisaster(self, lifeform):
+		# add toxic to random biome
+		biome = random.choice(self.biomes)
+		if not 'toxic' in biome.hazards:
+			biome.hazards.append('toxic')
+			biome.geo_tags.append('toxic')
+			biome.type = 'toxic ' + biome.type
+			
+		# do mass extinction
+		print("Migration disaster on planet",self.name)
+		death_rate_sea = random.random()*0.5 + 0.5		
+		death_rate_land = random.random()*0.5 + 0.5	
+		print("  death rate",death_rate_sea,"and",death_rate_land,"on sea and land")
+		kill_list = []
+		for f in self.lifeforms:
+			deathrate = death_rate_sea
+			for b in f.biomes:
+				if not 'water' in b.geo_tags:
+					deathrate = death_rate_land
+			
+			if random.random() < deathrate and not f == lifeform:
+				kill_list.append(f)
+		
+		for f in kill_list:
+			f.kill()							
+		
+		print(len(self.lifeforms),"lifeforms survived")
 		
 	def interplanetary(self, lifeform):
 		
@@ -483,6 +535,8 @@ class Planet:
 		print("INTERPLANETARY:",lifeform.id)	
 		print("interplanetary on planet",self.name)
 		self.has_interplanetary = True
+		
+		self.migrationDisaster(lifeform)
 		
 		self.star.sim.running = False
 		
@@ -499,7 +553,7 @@ class Planet:
 		print("interstellar on planet",self.name)
 		self.has_interstellar = True
 		
-		
+		self.migrationDisaster(lifeform)		
 		
 		self.star.sim.running = False
 			

@@ -16,7 +16,7 @@ from galaxy import Star, Planet, Biome
 #
 #
 #
-#  citybuilding mass extinction, eco-disasters when migrating
+#  citybuilding mass extinction√, eco-disasters when migrating
 #  
 #  cities should have fewer species. make city into a hazard, introduce city-tolerance into traits – eg social brains, something like "quick-growing roots" (for weeds), stuff that make plants good food (root energy store, endosperm), fast reproduction (for small creatures, like rats and cockroaches)
 #
@@ -29,6 +29,8 @@ from galaxy import Star, Planet, Biome
 #  interplanetary/interstellar migration
 #    cause mass extinction on destination planet
 #    if interstellar meets interstellar (happens rarely, when interplanetary civ happens to send migrations to same planet), do a huge nuclear war.
+
+# big to do list item: geological and paleontological records
 
 # simulation has stars, planets, age, etc
 class Simulation:
@@ -155,7 +157,7 @@ class Simulation:
 			for form in biome.lifeforms:
 				if req in form.eco_niches:
 					candidates.append(form)
-			num_new = random.randint(1,min(4,len(candidates)))
+			num_new = random.randint(1,min(8,len(candidates)))
 			for i in range(num_new):
 				new_member = random.choice(candidates) 
 				# avoid picking existing caravan members. 

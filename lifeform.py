@@ -330,7 +330,7 @@ class Lifeform:
 			
 			if not evolved_trait:
 	#		print("Evolution stalled")
-				return False
+				return False 
 				
 			loc = random.randint(0,len(new_traits))	
 			new_traits.insert(loc,evolved_trait)
