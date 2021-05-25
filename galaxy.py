@@ -440,7 +440,7 @@ class Planet:
 		print("city builder on planet",self.name)
 		self.has_builder = True
 		
-		# TODO: rethink this a bit. Also, add the "city" tag. And then when this species dies, remove "city" and replace with "ruin" instead.
+		# TODO: rethink this a bit. Avoid creating a new city biome if there's already one there or if there's a Ruins biome. Rename the Ruins biome to City biome.
 		# create new biomes
 		cities = []
 		for b in lifeform.biomes:
@@ -448,12 +448,13 @@ class Planet:
 				return
 			noneed = False
 			for pb in self.biomes:
-				if b.type in pb.type and 'city' in pb.type:	
+				if b.type in pb.type and ('city' in pb.type):	
 					noneed = True
 			if noneed:
 #				print("skipping",b.type,"city")
 				continue
-			city = Biome(self,b.type+' city',b.atmo,b.geo_tags+['city'],b.eco_tags+['builder'],b.hazards+[])
+			city = Biome(self,b.type+' city',b.atmo,b.geo_tags+[],b.eco_tags+[],b.hazards+[])
+			city.addGeoTag('city')
 			cities.append(city)
 			self.biomes.append(city)
 #			print("added",city.type,"biome to planet")

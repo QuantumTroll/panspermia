@@ -14,7 +14,9 @@ from galaxy import Star, Planet, Biome
 ### 
 # to do list
 #
-#  citybuilding mass extinction
+#
+#
+#  citybuilding mass extinction, eco-disasters when migrating
 #  
 #  cities should have fewer species. make city into a hazard, introduce city-tolerance into traits – eg social brains, something like "quick-growing roots" (for weeds), stuff that make plants good food (root energy store, endosperm), fast reproduction (for small creatures, like rats and cockroaches)
 #
@@ -25,14 +27,8 @@ from galaxy import Star, Planet, Biome
 #   traits: stuff in caverns — how do I get a carbon source in there?
 
 #  interplanetary/interstellar migration
-#    - select a set of useful/supporting species in the biome(s)
-#    - cause mass extinction on destination planet
-
-# how do I even want migration to work?
-#   1. ip species spreads within system, bringing ecosystem with it
-#   2. now have 4 ip species in system. This would all be easier if they sync'd.
-#   3. Maybe they can simply receive a link to the homeworld species, which decides their evolution? 
-#   4. Corollary: only homeworld sends out interstellar colonies? a bit sad, but certainly easier. 
+#    cause mass extinction on destination planet
+#    if interstellar meets interstellar (happens rarely, when interplanetary civ happens to send migrations to same planet), do a huge nuclear war.
 
 # simulation has stars, planets, age, etc
 class Simulation:
@@ -161,7 +157,10 @@ class Simulation:
 					candidates.append(form)
 			num_new = random.randint(1,min(4,len(candidates)))
 			for i in range(num_new):
-				new_member = random.choice(candidates)
+				new_member = random.choice(candidates) 
+				# avoid picking existing caravan members. 
+				if new_member in caravan:
+					continue
 				self.addToCaravan(caravan,new_member,biome,eco_reqs,geo_reqs)
 
 	def migrations(self):
@@ -270,6 +269,10 @@ class Scene:
 		self.biomedisp = ''
 		self.ecodisp = ''
 		self.filter_dead = 'False'
+		self.planet_life_scroll = 0
+		self.planet_biome_scroll = 0
+		self.lifeform_traits_scroll = 0
+	
 		
 	def draw(self):
 		self.time += 1
@@ -290,7 +293,14 @@ class Scene:
 		elif self.view == 'planet':
 			self.clickPlanet(cpos)
 		elif self.view == 'lifeform':
-			self.clickLifeform(cpos)		
+			self.clickLifeform(cpos)
+		
+	
+	def wheel(self,cpos,x):
+		if self.view == 'planet':
+			self.wheelPlanet(cpos,x)
+		elif self.view == 'lifeform':
+			self.wheelLifeform(cpos,x)
 			
 	def viewGalaxy(self):	
 		colour = (220,220,140)
@@ -409,7 +419,8 @@ class Scene:
 			screen.blit(text, textpos)				
 					
 		num  = 1		
-		for l in lifelist[-4:]:
+		scroll = min(len(lifelist),self.planet_life_scroll)
+		for l in lifelist[-4-scroll:]:
 			text = font.render(l.description,1,colour)		
 			textpos = text.get_rect(left=30, centery=height-125+num*25)
 			screen.blit(text, textpos)
@@ -423,7 +434,8 @@ class Scene:
 			textpos = text.get_rect(right=width-30, centery=25)
 			screen.blit(text, textpos)
 			num = 1
-			for b in self.biomedisp.geo_tags:
+			geoscroll = min(len(self.biomedisp.geo_tags),self.planet_biome_scroll)			
+			for b in self.biomedisp.geo_tags[-8-geoscroll:]:
 				if b in self.biomedisp.hazards:
 					text = font.render(b,1,hcolour)
 				else:
@@ -431,8 +443,9 @@ class Scene:
 				textpos = text.get_rect(right=width-30, centery=num*25+55)
 				screen.blit(text, textpos)
 				num += 1
-			colour = (140,220,140)
-			for b in self.biomedisp.eco_tags:
+			colour = (140,220,140) 
+			ecoscroll = min(len(self.biomedisp.eco_tags), self.planet_biome_scroll-geoscroll)
+			for b in self.biomedisp.eco_tags[-8-ecoscroll:]:
 				text = font.render(b,1,colour)		
 				textpos = text.get_rect(right=width-30, centery=num*25+55)
 				screen.blit(text, textpos)
@@ -456,6 +469,8 @@ class Scene:
 			self.view = 'star'
 			self.biomedisp = ''
 			self.ecodisp = ''
+			self.planet_life_scroll = 0			
+			self.planet_biome_scroll = 0
 			return
 
 		# check if asteroid strike
@@ -485,7 +500,8 @@ class Scene:
 							lifelist.append(form)
 				
 			num = 1	
-			for l in lifelist[-4:]:
+			scroll = min(len(lifelist),self.planet_life_scroll)
+			for l in lifelist[-4-scroll:]:
 				centery = height-125+num*25
 				if centery-5 < cpos[1] < centery+5:
 					self.view_object = l
@@ -509,15 +525,31 @@ class Scene:
 		if not self.biomedisp == '':
 			if width-200 < cpos[0] < width-30:
 				num = 0
-				for b in self.biomedisp.geo_tags:				
+				geoscroll = min(len(self.biomedisp.geo_tags),self.planet_biome_scroll)			
+				for b in self.biomedisp.geo_tags[-8-geoscroll:]:
 					num += 1
 	
-				for b in self.biomedisp.eco_tags:
+				ecoscroll = min(len(self.biomedisp.eco_tags), self.planet_biome_scroll-geoscroll)
+				for b in self.biomedisp.eco_tags[-8-ecoscroll:]:
 					if num*25+20 < cpos[1] < num*25+90:
 						self.ecodisp = b
 						print("displaying",b)
 						return
 					num += 1
+	
+	def wheelPlanet(self,cpos,x):
+		# check if scroll on species lists
+		if 30 < cpos[0] < 200:
+			if height-115 < cpos[1] < height:
+				print("scroll lifeforms",x)		
+				self.planet_life_scroll += x
+				if self.planet_life_scroll < 0:
+					self.planet_life_scroll = 0
+		# check if scroll on biome features
+		if width-200 < cpos[0] < width-30:
+			self.planet_biome_scroll += x
+			if self.planet_biome_scroll < 0:
+				self.planet_biome_scroll = 0
 					
 	def viewLifeform(self):
 		# list characteristics
@@ -526,7 +558,8 @@ class Scene:
 		textpos = text.get_rect(left=20, centery=25)
 		screen.blit(text, textpos)
 		num = 1
-		for t in self.view_object.traits:
+		scroll = min(len(self.view_object.traits),self.lifeform_traits_scroll)
+		for t in self.view_object.traits[-10-scroll:]:
 			text = smallfont.render(t.name+': '+t.description+' | '+str(t.stage),1,colour)		
 			textpos = text.get_rect(left=30, centery=25+num*15)
 			screen.blit(text, textpos)
@@ -576,6 +609,13 @@ class Scene:
 			
 		# draw clickable circles for parent and children
 		self.drawTreeAround()
+		
+	def wheelLifeform(self,cpos,x):
+		# check if scroll on traits lists
+		if 30 < cpos[0] < 200:
+			self.lifeform_traits_scroll += x
+			if self.lifeform_traits_scroll < 0:
+				self.lifeform_traits_scroll = 0
 		
 	def findNearestLivingParent(self,form):
 		if form.parent:
@@ -671,8 +711,7 @@ class Scene:
 			screen.blit(text, textpos)
 
 			num += 1
-		
-	
+			
 	def clickTreeAround(self,cpos):
 		form = self.view_object
 		if form.parent:
@@ -768,7 +807,8 @@ class Scene:
 		if 30 < cpos[0] < 200:
 			num = 1
 			traits = self.view_object.traits
-			for t in traits:
+			scroll = min(len(traits),self.lifeform_traits_scroll)
+			for t in traits[-10-scroll:]:
 				centery = 25+num*15
 				if centery-5 < cpos[1] < centery+5:
 					print("REMOVE TRAIT",t.name)
@@ -779,7 +819,8 @@ class Scene:
 		
 		if math.dist(cpos,(width/2,height/2)) < 0.3*width:	
 			self.view = 'planet'
-			self.view_object = self.view_object.planet			
+			self.view_object = self.view_object.planet	
+			self.lifeform_traits_scroll	= 0	
 			return
 	
 
@@ -834,6 +875,12 @@ def main():
 				scene.click(cpos)
 			elif event.type == pg.MOUSEBUTTONUP:
 				drawCircle = False
+			elif event.type == pg.MOUSEWHEEL:
+				scene.wheel(pg.mouse.get_pos(),event.y)
+			elif event.type == pg.KEYDOWN and event.key == pg.K_UP:
+				scene.wheel(pg.mouse.get_pos(),+1)
+			elif event.type == pg.KEYDOWN and event.key == pg.K_DOWN:
+				scene.wheel(pg.mouse.get_pos(),-1)								
 		
 		if sim.running:
 			sim.iterate()
