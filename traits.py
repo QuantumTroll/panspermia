@@ -800,7 +800,7 @@ def flora(traits):
 	t = {}
 	t['name'] = 'wood' 						# conifers and angiosperm
 	t['pheno_reqs'] = {'vessels':-1,'carbon':1}					# organism features needed to unlock trait
-	t['pheno_nopes'] = {'chitin':-1}	# organism features needed to *lock* trait		
+	t['pheno_nopes'] = {'chitin':-1,'hyphae':-1}	# organism features needed to *lock* trait		
 	t['pheno_tags'] = {'wood':-1,'energy':1} 			# traits contributes organism feature
 	t['eco_impacts'] = ['lignin']			# tags used to interpret ecosystem niche
 				# # of times this trait may be evolved
