@@ -14,9 +14,7 @@ from galaxy import Star, Planet, Biome
 ### 
 # to do list
 #
-#
-#
-#  citybuilding mass extinction√, eco-disasters when migrating
+# 
 #  
 #  cities should have fewer species. make city into a hazard, introduce city-tolerance into traits – eg social brains, something like "quick-growing roots" (for weeds), stuff that make plants good food (root energy store, endosperm), fast reproduction (for small creatures, like rats and cockroaches)
 #
@@ -26,8 +24,8 @@ from galaxy import Star, Planet, Biome
 #  more traits: camouflage and looks, e.g. mandibles
 #   traits: stuff in caverns — how do I get a carbon source in there?
 
-#  interplanetary/interstellar migration
-#    cause mass extinction on destination planet
+#  interplanetary/interstellar migration √ 
+#    cause mass extinction on destination planet √ 
 #    if interstellar meets interstellar (happens rarely, when interplanetary civ happens to send migrations to same planet), do a huge nuclear war.
 
 # big to do list item: geological and paleontological records
@@ -135,40 +133,14 @@ class Simulation:
 			if math.dist(starPos,s.position) < spread_radius:
 				s.seedForms(forms)
 
-	def addToCaravan(self,caravan,migrant,biome,eco_reqs,geo_reqs):
-		caravan.append(migrant)
-	#	print("added",migrant.description,"to caravan")
-		new_ecos = []
-		for req in migrant.biome_reqs:
-			# decide if a tag is an eco_tag or not
-			if req in biome.geo_tags and not req in geo_reqs:
-#				print("  new geo req",req)
-				geo_reqs.append(req)
-			elif req in biome.eco_tags and not req in eco_reqs:
-				new_ecos.append(req)
-			#else:
-			#	print("Warning: requirement",req," not found in",biome.type)
-				
-		for req in new_ecos:
-	#		print("    adding eco requirement",req)
-			eco_reqs.append(req)
-			# find a random species in biome that satisfies the requirement
-			candidates = []
-			for form in biome.lifeforms:
-				if req in form.eco_niches:
-					candidates.append(form)
-			num_new = random.randint(1,min(8,len(candidates)))
-			for i in range(num_new):
-				new_member = random.choice(candidates) 
-				# avoid picking existing caravan members. 
-				if new_member in caravan:
-					continue
-				self.addToCaravan(caravan,new_member,biome,eco_reqs,geo_reqs)
+	
 
 	def migrations(self):
 		if not len(self.migrants) > 0:
 			return
 		print("Performing migration")
+		
+		
 		
 		for migrant in self.migrants:
 			if not migrant.is_alive or migrant.has_migrated:
@@ -176,7 +148,7 @@ class Simulation:
 			
 			migrant.has_migrated = True
 			
-
+			migrant.planet.migrationDisaster(migrant)		
 			# identify terraforming requirements (atmospheric + geological, e.g. city)
 			# also identify necessary ecological niches
 			# to select companion species
@@ -184,16 +156,16 @@ class Simulation:
 			geo_reqs = []
 			caravan = []			
 			biome = random.choice(migrant.biomes)
-			print("migration from",biome.type," lead by",migrant.id)					
-			self.addToCaravan(caravan,migrant,biome,eco_reqs,geo_reqs)								
+			print(" migration from",biome.type,"lead by",migrant.id)					
+			migrant.addToCaravan(caravan,migrant,biome,eco_reqs,geo_reqs)								
 			
 			print("   migrating",len(caravan),"species")
 			caravan.reverse() # so that we add the last species first
-			
+			print("  could also use",len(migrant.caravan),"oder?")
 			# choose planets to migrate to			
 			target_planets = []			
 			if 'stellar' in migrant.description:
-				print("interstellar migration from",migrant.planet.name)				
+				print("   interstellar migration from",migrant.planet.name)				
 				# find nearby stars and seed life
 				starPos  = migrant.planet.star.position
 				spread_radius = 25
@@ -228,15 +200,37 @@ class Simulation:
 						target_planets.append(p)
 		
 			for p in target_planets:
-				print("   migrating to",p.name)
+				print("   migrating",len(caravan),"to",p.name,"from",migrant.planet.name)
 			#	print("    terraforming...")
 				
-				# this is dumb. TODO: check the entire planet for interplanetaries
+				# TODO: check the entire planet for interplanetaries if present make warfare
+				if_invasion = False
 				for b in p.biomes:
 					biometype = biome.type.split()[0]
 					if biometype in b.type and not 'interplanetary' in b.eco_tags:
 						the_biome = b
 				
+				if if_invasion:
+					print("#### INVASION WARNING on",p.name," #####")
+				else:
+					if len(p.lifeforms) > 0:
+						print("mass extinction on",p.name,"due to immigrant aliens")
+						death_rate_sea = random.random()*0.65 + 0.35		
+						death_rate_land = random.random()*0.25 + 0.35	
+						print("  death rate",death_rate_sea,"and",death_rate_land,"on sea and land")
+						kill_list = []
+						for f in p.lifeforms:
+							deathrate = death_rate_sea
+							for b in p.biomes:
+								if not 'water' in b.geo_tags:
+									deathrate = death_rate_land
+			
+							if random.random() < deathrate:
+								kill_list.append(f)
+		
+						for f in kill_list:
+							f.kill()		
+						
 				target_biome = Biome(p,the_biome.type+' city',the_biome.atmo,the_biome.geo_tags+[],the_biome.eco_tags+[],the_biome.hazards+[])
 				
 				p.biomes.append(target_biome)
@@ -248,7 +242,7 @@ class Simulation:
 
 
 				for l in caravan:
-			#		print("  migrating",l.description)
+					print("  adding",l.description,"to",p.name,"from",migrant.planet.name)
 					form = l.makeCopyForPlanet(p)
 					if l == migrant:
 						form.member_of = migrant
@@ -510,6 +504,7 @@ class Scene:
 					self.view = 'lifeform'
 					print(l.id)
 					print(l.genome)
+					print("has_migrated:",l.has_migrated)
 					print("need:")
 					for f in l.pheno_needs:
 						print('  ',f,l.pheno_needs[f])
@@ -681,6 +676,9 @@ class Scene:
 			text = smallfont.render(parent.description,1,tcolour)		
 			textpos = text.get_rect(centerx=70, centery=2*height/3)
 			screen.blit(text, textpos)
+			text = smallfont.render(parent.planet.name,1,(200,200,200))		
+			textpos = text.get_rect(centerx=70, centery=2*height/3+15)
+			screen.blit(text, textpos)
 		
 		# draw children:
 		children = []
@@ -727,6 +725,7 @@ class Scene:
 				self.view_object = parent
 				print(form.parent.id)				
 				print(form.parent.genome)
+				print("has_migrated:",form.parent.has_migrated)
 				print("need:")
 				for f in form.parent.pheno_needs:
 					print('  ',f,form.parent.pheno_needs[f])
@@ -760,6 +759,7 @@ class Scene:
 				self.view_object = c
 				print(c.id)
 				print(c.genome)
+				print("has_migrated:",c.has_migrated)
 				print("need:")
 				for f in c.pheno_needs:
 					print('  ',f,c.pheno_needs[f])

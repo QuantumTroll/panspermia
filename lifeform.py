@@ -54,6 +54,7 @@ class Lifeform:
 		self.pheno_needs = self.sumPhenoNeeds(self.traits)
 		self.pheno_supply = self.sumPhenoSupply(self.traits)
 		self.genDescription()	
+		self.caravan = []
 	
 	def makeCopyForPlanet(self, planet):
 		form = Lifeform(self,planet,self.traits)
@@ -261,6 +262,11 @@ class Lifeform:
 		if 'citybuilder' in eco_tags:
 			self.eco_niches.append('builder')
 			self.is_jealous = True
+			self.caravan = []
+			for b in self.biomes:
+				eco_reqs = []
+				geo_reqs = []
+				self.addToCaravan(self.caravan,self,b,eco_reqs,geo_reqs)
 			cities = self.planet.cityBuilder(self)
 		
 		if 'interplanetary' in eco_tags:
@@ -303,6 +309,8 @@ class Lifeform:
 						self.traits.insert(loc,interstellar)
 						self.refresh()		
 		
+			if self.has_migrated:
+				return False
 		
 		
 		if (len(self.children) > 2) or random.random() > 2.0/(self.age+2):					
@@ -475,6 +483,65 @@ class Lifeform:
 				return random.choice(redundants)
 		else:
 			return False
+		
+	def addToCaravan(self,caravan,migrant,biome,eco_reqs,geo_reqs):
+		caravan.append(migrant)
+	#	print("--added",migrant.description,"to caravan in",biome.type,"on",biome.planet.name)
+		new_ecos = []
+		old_ecos = []
+		for req in migrant.biome_reqs:
+			# decide if a tag is an eco_tag or not
+			if req in biome.geo_tags and not req in geo_reqs:
+		#		print("  new geo req",req)
+				geo_reqs.append(req)
+			elif req in biome.eco_tags:# and not req in eco_reqs:
+				if not req in eco_reqs:
+					new_ecos.append(req)
+				else:
+					old_ecos.append(req)
+			#else:
+			#	print("Warning: requirement",req," not found in",biome.type)
+				
+		for req in new_ecos:
+		#	print("    adding eco requirement",req)
+			eco_reqs.append(req)
+			# find a random species in biome that satisfies the requirement
+			candidates = []
+		#	print("       checking",len(biome.lifeforms))
+			for form in biome.lifeforms:
+				if req in form.eco_niches:
+					candidates.append(form)
+					#print("----new candidate:",form.description)
+			if len(candidates) < 1:
+				return
+			
+			num_new = random.randint(min(3,len(candidates)),min(8,len(candidates)))
+		#	print("----taking",num_new,"new candidates to meet req",req)			
+			for i in range(num_new):
+				new_member = random.choice(candidates) 
+				# avoid picking existing caravan members. 
+				if new_member in caravan:
+					continue
+				self.addToCaravan(caravan,new_member,biome,eco_reqs,geo_reqs)
+		
+		for req in old_ecos:
+			# find a random species in biome that satisfies the requirement
+			candidates = []
+		#	print("       checking",len(biome.lifeforms))
+			for form in biome.lifeforms:
+				if req in form.eco_niches:
+					candidates.append(form)
+					#print("----new candidate:",form.description)
+			if len(candidates) < 1:
+				return
+		#	print("---- taking one of",len(candidates),"new candidates to meet req",req)
+			
+			new_member = random.choice(candidates) 
+			# avoid picking existing caravan members. 
+			if new_member in caravan:
+				caravan.append(caravan.pop(caravan.index(new_member)))
+				continue
+			self.addToCaravan(caravan,new_member,biome,eco_reqs,geo_reqs)	
 		
 # traits have requirements, add tags, have genome codes
 class Trait:

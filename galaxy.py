@@ -63,6 +63,7 @@ class Planet:
 
 		self.biomes = []
 		self.setBiomes()
+		self.num_toxic_biomes = 0
 		self.generateName()	
 		self.lifeforms = []		
 		self.kill_list = []
@@ -428,7 +429,7 @@ class Planet:
 #				print("checking",b.type)
 				has_city = False
 				for pb in self.biomes:
-					if b.type in pb.type and 'city' in pb.type:						
+					if b.type in pb.type and ('city' in pb.type or 'ruin' in pb.type):						
 						has_city = True
 #						print("found",pb.type)
 #					else:
@@ -466,14 +467,16 @@ class Planet:
 #			print("added",city.type,"biome to planet")
 						
 		# add toxic to random biome
-		biome = random.choice(self.biomes)
-		if not 'toxic' in biome.hazards:
-			biome.hazards.append('toxic')
-			biome.geo_tags.append('toxic')
-			biome.type = 'toxic ' + biome.type
+		if random.randint(1,4) > self.num_toxic_biomes:
+			biome = random.choice(self.biomes)
+			if not 'toxic' in biome.hazards:
+				self.num_toxic_biomes += 1
+				biome.hazards.append('toxic')
+				biome.geo_tags.append('toxic')
+				biome.type = 'toxic ' + biome.type
 			
 		# do mass extinction
-		print("Mass extinction on planet",self.name)
+		print("Citybuilder extinction on planet",self.name)
 		death_rate_sea = random.random()*0.4 + 0.6		
 		death_rate_land = random.random()*0.5 + 0.5	
 		print("  death rate",death_rate_sea,"and",death_rate_land,"on sea and land")
@@ -484,15 +487,18 @@ class Planet:
 				if not 'water' in b.geo_tags:
 					deathrate = death_rate_land
 			
-			if random.random() < deathrate and not f == lifeform:
-				kill_list.append(f)
+			if random.random() < deathrate and not (f == lifeform): 
+				if f in lifeform.caravan:
+					print("avoided killing caravan",f.description)
+				else:
+					kill_list.append(f)
 		
 		for f in kill_list:
 			f.kill()							
 		
 		print(len(self.lifeforms),"lifeforms survived")
 		
-		self.star.sim.running = False
+	#	self.star.sim.running = False
 		return cities
 	
 	def migrationDisaster(self, lifeform):
@@ -515,7 +521,7 @@ class Planet:
 				if not 'water' in b.geo_tags:
 					deathrate = death_rate_land
 			
-			if random.random() < deathrate and not f == lifeform:
+			if random.random() < deathrate and not f in lifeform.caravan:
 				kill_list.append(f)
 		
 		for f in kill_list:
@@ -525,8 +531,8 @@ class Planet:
 		
 	def interplanetary(self, lifeform):
 		
-		# if this is the homeworld lifeform
-		if not lifeform.member_of:
+		# if this is the homeworld lifeform and has not migrated already
+		if not lifeform.member_of and not lifeform.has_migrated:
 			if not lifeform in self.star.sim.migrants:
 				self.star.sim.migrants.append(lifeform)
 		else:
@@ -536,13 +542,13 @@ class Planet:
 		print("interplanetary on planet",self.name)
 		self.has_interplanetary = True
 		
-		self.migrationDisaster(lifeform)
+		#self.migrationDisaster(lifeform)
 		
 		self.star.sim.running = False
 		
 	def interstellar(self, lifeform):
 
-		if not lifeform.has_migrated:
+		if not lifeform.member_of and not lifeform.has_migrated:
 			if not lifeform in self.star.sim.migrants:
 				self.star.sim.migrants.append(lifeform)
 		else:
@@ -553,7 +559,7 @@ class Planet:
 		print("interstellar on planet",self.name)
 		self.has_interstellar = True
 		
-		self.migrationDisaster(lifeform)		
+		#self.migrationDisaster(lifeform)		
 		
 		self.star.sim.running = False
 			
