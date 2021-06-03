@@ -59,6 +59,7 @@ class Planet:
 		self.id = random.randint(0,1000000)
 		self.type = ''
 		self.star = star
+		self.sim = star.sim
 		self.distance = distance # distance to star
 
 		self.biomes = []
@@ -67,7 +68,6 @@ class Planet:
 		self.generateName()	
 		self.lifeforms = []		
 		self.kill_list = []
-		#self.addTagToAtmo('Sulfur')
 		self.has_builder = False
 		self.has_interplanetary = False				
 		self.has_interstellar = False
@@ -274,6 +274,8 @@ class Planet:
 			f.kill()							
 		
 		print(len(self.lifeforms),"lifeforms survived")
+		for b in self.biomes:
+			b.record("asteroid")
 		
 		return spread	
 	
@@ -395,6 +397,7 @@ class Planet:
 					# a city biome without a builder becomes a Ruin
 					b.type = b.type[:-4] + 'ruin'
 					print("city ruined on",self.name)
+					b.record('ruined')
 	
 	def addTagToAtmo(self, tag):
 		if not tag in self.atmosphere:
@@ -474,6 +477,7 @@ class Planet:
 				biome.hazards.append('toxic')
 				biome.geo_tags.append('toxic')
 				biome.type = 'toxic ' + biome.type
+				biome.record('toxified')
 			
 		# do mass extinction
 		print("Citybuilder extinction on planet",self.name)
@@ -497,7 +501,8 @@ class Planet:
 			f.kill()							
 		
 		print(len(self.lifeforms),"lifeforms survived")
-		
+		for b in self.biomes:
+			b.record('anthropogenic signature')
 	#	self.star.sim.running = False
 		return cities
 	
@@ -508,6 +513,7 @@ class Planet:
 			biome.hazards.append('toxic')
 			biome.geo_tags.append('toxic')
 			biome.type = 'toxic ' + biome.type
+			biome.record('toxified')
 			
 		# do mass extinction
 		print("Migration disaster on planet",self.name)
@@ -528,6 +534,8 @@ class Planet:
 			f.kill()							
 		
 		print(len(self.lifeforms),"lifeforms survived")
+		for b in self.biomes:
+			b.record('anthropogenic signature')
 		
 	def interplanetary(self, lifeform):
 		
@@ -567,6 +575,7 @@ class Planet:
 class Biome:
 	def __init__(self,planet,type,atmo,geo_tags,eco_tags,hazards):
 		self.planet = planet
+		self.sim = planet.sim
 		self.type = type
 		self.atmo = atmo
 		self.geo_tags = geo_tags
@@ -574,6 +583,9 @@ class Biome:
 		self.hazards = hazards
 		self.lifeforms = []
 		self.lifelist = {}
+		self.events = []
+		self.record('created')
+		
 	def addLifeform(self, form):		
 		#for l in self.lifeforms:
 		#	if form.size > l.size:
@@ -619,3 +631,27 @@ class Biome:
 		print("removing tag %s not implemented"%tag)
 	def removeEcoTag(self,tag):
 		print("removing tag %s not implemented"%tag)
+	
+	def record(self,tag=None):
+		if len(self.events) > 0 and self.events[-1].time == self.sim.age:	# update current event
+			event = self.events[-1]
+			event.update(tag)	
+		
+		else:	# create new event
+			self.events.append(Event(self.sim.age,self,tag))
+
+# event
+class Event:
+	def __init__(self,timestep,biome,tag):
+		self.time = timestep
+		self.biome = biome
+		self.lifeforms = biome.lifeforms + []		
+		self.tags = []
+		if tag:
+			self.tags.append(tag)
+			
+	def update(self,tag):
+		if tag:
+			self.tags.append(tag)
+		self.lifeforms = self.biome.lifeforms + []
+

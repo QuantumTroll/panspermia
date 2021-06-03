@@ -14,7 +14,7 @@ from galaxy import Star, Planet, Biome
 ### 
 # to do list
 #
-# 
+#  micro traits — basic cell stuff that gets conserved
 #  
 #  cities should have fewer species. make city into a hazard, introduce city-tolerance into traits – eg social brains, something like "quick-growing roots" (for weeds), stuff that make plants good food (root energy store, endosperm), fast reproduction (for small creatures, like rats and cockroaches)
 #
