@@ -40,6 +40,41 @@ class Lifeform:
 		self.pheno_supply = self.sumPhenoSupply(self.traits)
 		self.genDescription()	
 	
+	def dict(self):
+		dict = {}
+		dict['id'] = self.id
+		dict['traits'] = []
+		for t in self.traits:
+			dict['traits'].append(t.dict())
+		dict['genome'] = self.genome
+		dict['age'] = self.age
+		dict['size'] = self.size
+		dict['description'] = self.description
+		#self.name = ''
+		if self.member_of:
+			dict['member_of'] = self.member_of.id
+		else:
+			dict['member_of'] = ''	
+		dict['members'] = []
+		for m in self.members:
+			dict['members'].append(m.id)
+		dict['has_migrated'] = self.has_migrated
+		dict['is_multicellular'] = self.is_multicellular
+		dict['is_jealous'] = self.is_jealous
+		dict['pheno_needs'] = self.pheno_needs
+		dict['pheno_supply'] = self.pheno_supply
+		dict['biome_reqs'] = self.biome_reqs
+		dict['biome_tols'] = self.biome_tols
+		dict['eco_tags'] = self.eco_tags
+		dict['eco_niches'] = self.eco_niches
+		dict['pheno_needs'] = self.pheno_needs
+		dict['pheno_supply'] = self.pheno_supply		
+		
+		dict['children'] = []
+		for c in self.children:
+			dict['children'].append(c.dict())
+		return dict
+	
 	def refresh(self):
 		self.genGenome()
 		self.pheno_needs = {}
@@ -575,6 +610,26 @@ class Trait:
 		self.org_type = org_type
 		self.id = id
 		
+	def dict(self):
+		dict = {}
+		dict['name'] = self.name
+		dict['pheno_prereqs'] = self.pheno_prereqs
+		dict['pheno_nopes'] = self.pheno_nopes
+		dict['pheno_tags'] = self.pheno_tags
+		dict['biome_reqs'] = self.biome_reqs
+		dict['biome_prereqs'] = self.biome_prereqs
+		dict['biome_tols'] = self.biome_tols
+		dict['biome_impacts'] = self.biome_impacts
+		dict['eco_impacts'] = self.eco_impacts
+		dict['num_per_planet'] = self.num_per_planet
+		dict['description'] = self.description
+		dict['stage'] = self.stage
+		dict['org_type'] = self.org_type
+		dict['id'] = self.id
+		return dict
+						
+								
+	
 	# make a random genome for yourself
 	def genGenome(self): 
 		# start with a random start codon

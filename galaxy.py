@@ -8,8 +8,9 @@ from lifeform import Trait
 # stars just have a list of planets
 class Star:
 
-	def __init__(self,sim,num_planets,pos,params,traits):
+	def __init__(self,sim,id,num_planets,pos,params,traits):
 		self.sim = sim
+		self.id = id
 		self.position = pos
 		self.params = params
 		self.planets = []
@@ -20,6 +21,16 @@ class Star:
 		for i in range(0,num_planets):			
 			self.planets.append( Planet(self,traits[:],r) ) # pass a copy of all traits to the planet					
 			r += r_per_planet
+	
+	def dict(self):
+		dict = {}
+		dict['id'] = self.id
+		dict['position'] = self.position
+		dict['params'] = self.params
+		dict['planets'] = []
+		for p in self.planets:
+			dict['planets'].append(p.dict())
+		return dict
 	
 	def updatePos(self,age):	 # rotate about centre of galaxy
 		r = self.params[0]
@@ -72,7 +83,33 @@ class Planet:
 		self.has_interplanetary = False				
 		self.has_interstellar = False
 		self.traits = traits
-		
+	
+	def dict(self):
+		dict = {}
+		dict['max_lifeforms'] = self.max_lifeforms
+		dict['id'] = self.id
+		dict['type'] = self.type
+		dict['distance'] = self.distance
+		dict['biomes'] = []
+		for b in self.biomes:
+			dict['biomes'].append(b.dict())
+
+		dict['num_toxic_biomes'] = self.num_toxic_biomes
+		dict['name'] = self.name
+		dict['lifeforms'] = []
+		for l in self.lifeforms:
+			dict['lifeforms'].append(l.id)
+		dict['kill_list'] = []
+		for k in self.kill_list:
+			dict['kill_list'].append(k.id)
+		dict['has_builder'] = self.has_builder
+		dict['has_interplanetary'] = self.has_interplanetary
+		dict['has_interstellar'] = self.has_interstellar
+		dict['traits'] = []
+		for t in self.traits:
+			dict['traits'].append(t.dict())
+		return dict
+			
 	def setBiomes(self):
 		
 		is_radioactive = False
@@ -303,9 +340,11 @@ class Planet:
 			if 'micro_eat_sludge' in t.name:			
 				traits = [copy.deepcopy(t)]
 		print("  Generating genome")
-		traits[0].genGenome()		
-		self.addLifeform( Lifeform( None, self, traits ) )
+		traits[0].genGenome()	
+		first = Lifeform( None, self, traits )	
+		self.addLifeform( first )
 		print("  First organism created: ",traits[0].genome)
+		return first
 	
 	def addLifeform(self, form):						
 		self.lifeforms.append(form)
@@ -585,13 +624,25 @@ class Biome:
 		self.lifelist = {}
 		self.events = []
 		self.record('created')
+	
+	def dict(self):
+		dict = {}
+		dict['type'] = self.type
+		dict['atmo'] = self.atmo
+		dict['geo_tags'] = self.geo_tags
+		dict['eco_tags'] = self.eco_tags
+		dict['hazards'] = self.hazards
+		dict['lifeforms'] = []
+		for l in self.lifeforms:
+			dict['lifeforms'].append(l.id)
+		dict['lifelist'] = self.lifelist
+		dict['events'] = []
+		for e in self.events:
+			dict['events'].append(e.dict())
+
+		return dict
 		
-	def addLifeform(self, form):		
-		#for l in self.lifeforms:
-		#	if form.size > l.size:
-		#		self.lifeforms.insert(self.lifeforms.index(l)+1,form)
-		#		break					
-		#if not form in self.lifeforms:
+	def addLifeform(self, form):	
 		self.lifeforms.append(form)
 		if form.description in self.lifelist:
 			self.lifelist[form.description] += 1
@@ -649,7 +700,16 @@ class Event:
 		self.tags = []
 		if tag:
 			self.tags.append(tag)
-			
+		
+	def dict(self):
+		dict = {}
+		dict['time'] = self.time
+		dict['lifeforms'] = []
+		for l in self.lifeforms:
+			dict['lifeforms'].append(l.id)
+		dict['tags'] = self.tags
+		return dict
+	
 	def update(self,tag):
 		if tag:
 			self.tags.append(tag)

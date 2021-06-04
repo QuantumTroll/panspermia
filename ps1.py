@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+import json
 import pygame as pg
 import random
 import copy
@@ -35,13 +36,19 @@ class Simulation:
 	def __init__(self,num_stars,num_planets_per_star):
 		print("Initialising simulation")
 		if len(sys.argv) > 1:
-			random.seed(sys.argv[1])
-			print("Seed:",sys.argv[1])
+			seed = sys.argv[1]
+			random.seed(seed)
+			print("Seed:",seed)
 		else:
 			random.seed()
 			seed = random.randint(0,10000000)
 			random.seed(seed)
 			print("Random seed:",seed)
+		
+		self.id = seed		
+		self.savefile = 'sav'+str(seed)
+		
+		#TODO: if save file exists, load it. Otherwise, start new galaxy.
 		
 		self.age = 0
 		self.running = False
@@ -57,12 +64,42 @@ class Simulation:
 			r = i*20/num_stars + random.randint(1,6)
 			position = (r*math.sin(i*.5),r*math.cos(i*.5))
 			num = num_planets_per_star + random.randint(-2,2)
-			self.stars.append( Star(self,num, position,(r,i), self.traits ))
+			self.stars.append( Star(self,i,num, position,(r,i), self.traits ))
 		
 		# spawn life on a planet
 		planet0 = self.findPlanet('ocean')
 			
-		planet0.abiogenesis()
+		self.first_life = planet0.abiogenesis()
+	
+	def save(self):
+		print("Saving to",self.savefile, "...")		
+		
+		print("..converting galaxy to dictionary")
+		sd = {}
+		sd['id'] = self.id
+		sd['age'] = self.age
+		sd['stars'] = []
+		sd['traits'] = []
+		for trait in self.traits:
+			sd['traits'].append(trait.dict())				
+		
+		sd['lifeforms'] = self.first_life.dict()
+				
+		for star in self.stars:
+			sd['stars'].append(star.dict())
+			
+		
+	#	print("...converting dict to json")
+		#jsondat = json.dumps(sd, indent=2)
+		print(".....data converted to dict")
+		with open(self.savefile,'w') as f:
+			json.dump(sd,f,indent=2)
+		
+		print("Save complete")
+	
+	def load(self):
+		print("loading...")
+		
 		
 	def findPlanet(self,type):
 		for s in self.stars:
@@ -872,6 +909,8 @@ def main():
 			elif event.type == pg.KEYDOWN and event.key == pg.K_s:
 				print("****")
 				sim.iterate()
+			elif event.type == pg.KEYDOWN and event.key == pg.K_f:
+				sim.save()	
 			elif event.type == pg.MOUSEBUTTONDOWN:
 				cpos = pg.mouse.get_pos()	
 				scene.click(cpos)
