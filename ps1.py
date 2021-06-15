@@ -2,6 +2,7 @@
 
 import sys
 import json
+import pickle
 import pygame as pg
 import random
 import copy
@@ -73,6 +74,12 @@ class Simulation:
 	
 	def save(self):
 		print("Saving to",self.savefile, "...")		
+		sys.setrecursionlimit(100000)
+		with open(self.savefile,'bw') as f:
+			pickle.dump(self,f)
+		
+		print("Save complete")	
+		return
 		
 		print("..converting galaxy to dictionary")
 		sd = {}
