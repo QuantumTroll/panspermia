@@ -1,8 +1,10 @@
 #!/usr/bin/env python3
 
+import os
 import sys
 import json
 import pickle
+import inspect
 import pygame as pg
 import random
 import copy
@@ -37,9 +39,19 @@ class Simulation:
 	def __init__(self,num_stars,num_planets_per_star):
 		print("Initialising simulation")
 		if len(sys.argv) > 1:
-			seed = sys.argv[1]
-			random.seed(seed)
-			print("Seed:",seed)
+			if sys.argv[1].isnumeric():
+				seed = sys.argv[1]
+				random.seed(seed)
+				print("Seed:",seed)
+			else:
+				self.loadfile = sys.argv[1]								
+				if os.path.isfile(self.loadfile):
+					self.load()
+					return
+				else:
+					print("Savefile",self.loadfile,"not found")
+					exit()
+				return
 		else:
 			random.seed()
 			seed = random.randint(0,10000000)
@@ -49,7 +61,6 @@ class Simulation:
 		self.id = seed		
 		self.savefile = 'sav'+str(seed)
 		
-		#TODO: if save file exists, load it. Otherwise, start new galaxy.
 		
 		self.age = 0
 		self.running = False
@@ -81,6 +92,7 @@ class Simulation:
 		print("Save complete")	
 		return
 		
+	def jsonsave(self):
 		print("..converting galaxy to dictionary")
 		sd = {}
 		sd['id'] = self.id
@@ -105,7 +117,19 @@ class Simulation:
 		print("Save complete")
 	
 	def load(self):
-		print("loading...")
+		print("Loading",self.loadfile,"...")
+		with open(self.loadfile,'br') as f:
+			lsim = pickle.load(f)
+			
+		self.id = lsim.id
+		self.savefile = lsim.savefile
+		self.age = lsim.age
+		self.running = lsim.running
+		self.stars = lsim.stars
+		self.traits = lsim.traits
+		self.migrants = lsim.migrants
+		self.first_life = lsim.first_life
+		print("Load complete")
 		
 		
 	def findPlanet(self,type):
